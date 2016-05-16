@@ -1,0 +1,22 @@
+- if auth.configurable?
+  %form
+    %table
+      - auth.configurable.each do |attr|
+        %tr
+          %td
+            %label= "#{attr.capitalize}: "
+          %td
+            %input{ type: 'text', name: attr, value: '' }
+
+      - if !auth.configurable.include?(:subdomain) && auth.subdomains.any?
+        %tr
+          %td
+            %label= "Subdomain: "
+          %td
+            - if auth.subdomains.size > 1
+              %select{ name: 'subdomain' }
+                - auth.subdomains.each do |subdomain|
+                  %option{ value: subdomain }= subdomain
+            - else
+              = auth.subdomains.first
+              %input{ type: 'hidden', name: 'subdomain', value: auth.subdomains.first }

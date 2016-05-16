@@ -1,0 +1,179 @@
+body
+{
+	margin: 0;
+	padding: 0;
+}
+
+pre, code, .authentication form
+{
+	font-family: monospace;
+	background-color: #fcf6db;
+	border: 1px solid #e5e0c6;
+	padding: 10px;
+}
+
+label
+{
+  font-weight: bold;
+}
+
+input[type=text], select
+{
+  min-width: 200px;
+}
+
+input[type=button], input[type=submit]
+{
+  min-width: 98px;
+}
+
+a, a:active, a:visited, a:hover
+{
+	color: #000000;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+.hidden
+{
+	display: none;
+}
+
+.clear
+{
+	clear: both;
+}
+
+.application
+{
+	margin: 10px auto;
+	width: 1024px;
+}
+
+.welcome, .documentation, .authentication
+{
+	width: 100%;
+}
+
+.resource
+{
+	color: #999999;
+	padding: 10px 0 10px 0px;
+	font-size: 1.5em;
+	font-weight: bold;
+	border-bottom: 1px solid #dddddd;
+}
+
+.action
+{
+	margin-top: 10px;
+	padding: 10px;
+}
+
+.action.get
+{
+	background-color: #e7f0f7;
+	border: 1px solid #aecce4;
+}
+
+.action.post
+{
+	background-color: #ebf7f0;
+	border: 1px solid #c3e8d1;
+}
+
+.action.put
+{
+	background-color: #f9f2e9;
+	border: 1px solid #e9cead;
+}
+
+.action.delete
+{
+	background-color: #f5e8e8;
+	border: 1px solid #deb3b3;
+}
+
+.action .method
+{
+	color: #ffffff;
+	font-weight: bold;
+	width: 80px;
+	text-align: center;
+	padding: 5px;
+	float: left;
+	margin-right: 10px;
+}
+
+.action .method.get
+{
+	background-color: #0061ac;
+}
+
+.action .method.post
+{
+	background-color: #10a54a;
+}
+
+.action .method.put
+{
+	background-color: #b06300;
+}
+
+.action .method.delete
+{
+	background-color: #a20909;
+}
+
+.action .subresource
+{
+	float: left;
+	line-height: 31px;
+}
+
+.action form
+{
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
+.action form table
+{
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.action form table th
+{
+  font-weight: bold;
+}
+
+.action form table th, .action form table td
+{
+  padding-bottom: 5px;
+  text-align: left;
+  border-bottom: 1px solid #000000;
+}
+
+.action form table td
+{
+  padding: 10px;
+}
+
+.action form table td input[type=text]
+{
+  display: block;
+  margin-bottom: 5px;
+}
+
+.action .response
+{
+  margin-top: 10px;
+}
