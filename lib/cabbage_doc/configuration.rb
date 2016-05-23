@@ -10,7 +10,7 @@ module CabbageDoc
       verbose: false
     }.freeze
 
-    OPTIONAL_ATTRIBUTES = %i(welcome path scheme version title verbose authentication namespace).freeze
+    OPTIONAL_ATTRIBUTES = %i(welcome path scheme version title verbose authentication).freeze
     REQUIRED_ATTRIBUTES = %i(domain controllers root).freeze
     ATTRIBUTES          = (OPTIONAL_ATTRIBUTES + REQUIRED_ATTRIBUTES).freeze
     CALLABLE_ATTRIBUTES = %i(controllers authentication).freeze

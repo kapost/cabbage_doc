@@ -1,0 +1,9 @@
+- if parameter.required && parameter.values.none? && parameter.default
+  %input{ name: parameter.name, type: 'hidden', value: parameter.default, disabled: disabled }
+  = parameter.default
+- else
+  %select{ name: parameter.name, disabled: disabled, class: disabled ? 'hidden' : nil }
+    - if !parameter.required && !parameter.default
+      %option
+    - parameter.values.each do |value|
+      %option{ value: value, selected: (value == parameter.default) }=value

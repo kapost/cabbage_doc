@@ -5,9 +5,7 @@ module CabbageDoc
         collection.clear!
 
         Configuration.instance.controllers.call.each do |filename|
-          if controller = Controller.parse(filename)
-            collection << controller
-          end
+          collection.parse!(filename)
         end
 
         collection.save!

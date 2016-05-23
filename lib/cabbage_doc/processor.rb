@@ -27,9 +27,7 @@ module CabbageDoc
     end
 
     def auth
-      @_auth ||= Authentication.new do |auth|
-        auth.headless = true
-      end
+      @_auth ||= Authentication.new
     end
 
     def collection

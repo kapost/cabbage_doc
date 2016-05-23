@@ -5,7 +5,7 @@ module CabbageDoc
     METHODS = %w(GET POST PUT DELETE).freeze
     METHODS_REGEXP = METHODS.join('|').freeze
 
-    attr_reader :label, :name, :path, :method, :parameters, :examples
+    attr_reader :label, :name, :description, :path, :method, :parameters, :examples
 
     def initialize
       @parameters = []
@@ -18,6 +18,8 @@ module CabbageDoc
 
       @name = parse_name(text)
       @label = parse_label(text)
+      @description = parse_description(text)
+
       @parameters, @examples = parse_parameters_and_examples(text)
 
       valid?
@@ -62,7 +64,7 @@ module CabbageDoc
     end
 
     def parse_method_and_path(text)
-      m = text.match(/#\s*(#{METHODS_REGEXP}):\s*(.*?)$/i)
+      m = text.match(/#\s*(#{METHODS_REGEXP}):\s*(.*?)$/)
       [m[1].strip.upcase, m[2].strip] if m
     end
 
@@ -73,6 +75,11 @@ module CabbageDoc
 
     def parse_label(text)
       m = text.match(/#\s*Public:(.*?)$/)
+      m[1].strip if m
+    end
+
+    def parse_description(text)
+      m = text.match(/#\s*Description:(.*?)$/)
       m[1].strip if m
     end
   end

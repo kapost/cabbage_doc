@@ -1,0 +1,12 @@
+%tr{ class: parameter.required ? 'required' : nil }
+  %td=parameter.name
+  %td
+    - case parameter.type
+    - when :enumeration
+      = haml :enumeration, locals: { parameter: parameter, disabled: false }
+    - when :array, :hash
+      = haml :array, locals: { parameter: parameter, disabled: false }
+    - else
+      = haml :text, locals: { parameter: parameter, disabled: false }
+  %td=parameter.type_label
+  %td=parameter.label

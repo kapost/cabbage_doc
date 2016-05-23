@@ -1,0 +1,13 @@
+- if parameter.values.any?
+  = haml :enumeration, locals: { parameter: parameter, disabled: true }
+- else
+  - placeholder = parameter.required ? 'required' : nil
+  - if parameter.type == :array
+    - name = "#{parameter.name}[]"
+  - else
+    - name = "#{parameter.name}[hash]"
+    - placeholder = "key=value"
+  %input.hidden{ disabled: true, type: 'text', name: name, placeholder: placeholder }
+
+%input.add{ type: 'button', value: 'Add', class: parameter.type }
+%input.remove.hidden{ type: 'button', value: 'Remove', class: parameter.type }

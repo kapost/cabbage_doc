@@ -33,5 +33,15 @@ module CabbageDoc
         end
       end
     end
+
+    def parse_templates(text)
+      templates = []
+
+      text.scan(/(\{(.*?)\})/) do
+        templates << { text: $1, values: $2.split(/,/).map(&:strip) }
+      end
+
+      templates
+    end
   end
 end

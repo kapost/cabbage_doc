@@ -1,0 +1,14 @@
+- if auth.configurable?
+  %input{ type: 'submit', value: 'Try it' }
+  %input.clear.hidden{ type: 'button', value: 'Clear' }
+  .response.hidden
+    %p="Url:"
+    %pre.url
+    %p="Query:"
+    %pre.query
+    %p="Code:"
+    %pre.code
+    %p="Headers:"
+    %pre.headers
+    %p="Body:"
+    %pre.body

@@ -1,0 +1,7 @@
+.controller
+  .resource
+    %a{ href: 'javascript:void(0);' }= controller.path
+    %span= " : #{controller.label}"
+  .actions.hidden
+    - controller.actions.each do |action|
+      = haml :action, locals: { action: action }

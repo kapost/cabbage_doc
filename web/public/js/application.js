@@ -15,11 +15,17 @@ $(document).ready(function()
     var el = $(this);
     var td = el.closest('td');
 
-    var text = $('<input>');
-    text.attr('type', 'text');
-    text.attr('name', el.attr('data-name') + '[]');
+    var input = td.find('input[type=text]:first');
 
-    text.insertBefore(el);
+    if(input.length == 0) input = td.find('select:first');
+    if(input.length == 0) return;
+
+    var new_input = input.clone();
+
+    new_input.attr('disabled', false);
+    new_input.removeClass('hidden');
+
+    new_input.insertBefore(el);
 
     td.find('.remove').removeClass('hidden');
   });
@@ -30,8 +36,9 @@ $(document).ready(function()
     var td = el.closest('td');
 
     td.find('input[type=text]:last').remove();
+    td.find('select:last').remove();
 
-    if(td.find('input[type=text]').length == 0)
+    if(td.find('input[type=text]').length == 1 || td.find('select').length == 1)
       el.addClass('hidden');
   });
 
@@ -63,7 +70,22 @@ $(document).ready(function()
     data.push({'name': 'method', 'value': form.attr('method') || ''});
     data.push({'name': 'action', 'value': form.attr('action') || ''});
 
-    data = $.grep(data, function(v, i) { return v.value.length > 0; });
+    data = $.grep(data, function(v, i)
+    {
+      if(v.name.match(/\[hash\]$/))
+      {
+          var kv = v.value.split('=');
+          if(kv.length == 2)
+          {
+            v.name = v.name.replace(/\[hash\]$/, '[' + $.trim(kv[0]) + ']');
+            v.value = $.trim(kv[1]);
+          }
+      }
+
+      return v.value.length > 0;
+    });
+
+    console.log(data);
 
     $.ajax('/', {
       data: $.param(data),

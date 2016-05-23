@@ -3,6 +3,7 @@ module CabbageDoc
 
   autoload :Path,           'cabbage_doc/path'
   autoload :Singleton,      'cabbage_doc/singleton'
+  autoload :Cloneable,      'cabbage_doc/cloneable'
   autoload :PactoHelper,    'cabbage_doc/pacto_helper'
   autoload :Parser,         'cabbage_doc/parser'
   autoload :Client,         'cabbage_doc/client'

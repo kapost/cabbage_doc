@@ -86,6 +86,9 @@ How to document?
 CabbageDoc uses a simple and readable *structured comment style* inspired by [Tomdoc](http://tomdoc.org/).
 
 ```ruby
+# Public: Resources
+#
+# PATH: /resources
 class ResourcesController # :cabbagedoc:
   # Public: List
   #
@@ -138,6 +141,21 @@ class ResourcesController # :cabbagedoc:
   #   id (String) [required] - resource id
   def destroy # :cabbagedoc:
   end
+end
+```
+
+It is also possible to add a longer description like so:
+
+```ruby
+# Public: Delete
+#
+# DELETE: /resources/:id
+#
+# Description: Deletes a resource.
+#
+# Parameters:
+#   id (String) [required] - resource id
+def destroy # :cabbagedoc:
 end
 ```
 

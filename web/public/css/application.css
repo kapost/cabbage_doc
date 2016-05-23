@@ -12,7 +12,7 @@ pre, code, .authentication form
 	padding: 10px;
 }
 
-label
+label, .required
 {
   font-weight: bold;
 }
@@ -41,7 +41,7 @@ a:hover
 
 .hidden
 {
-	display: none;
+	display: none !important; 
 }
 
 .clear
@@ -167,7 +167,7 @@ a:hover
   padding: 10px;
 }
 
-.action form table td input[type=text]
+.action form table td input[type=text], .action form table td select
 {
   display: block;
   margin-bottom: 5px;
@@ -176,4 +176,9 @@ a:hover
 .action .response
 {
   margin-top: 10px;
+}
+
+.action .description
+{
+  margin-bottom: 20px;
 }

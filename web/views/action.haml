@@ -1,0 +1,20 @@
+- klass = action.method.downcase
+.action{ class: klass }
+  .method{ class: klass }=action.method
+  .subresource
+    %a{ href: 'javascript:void(0);' }= action.path
+    %span= " : #{action.label}"
+  .clear
+  %form.hidden{ action: action.path, method: action.method }
+    - if action.description
+      .description= action.description
+    - if action.parameters.any?
+      %table
+        %tr
+          %th='Parameter'
+          %th='Value'
+          %th='Type'
+          %th='Description'
+        - action.parameters.each do |parameter|
+          = haml :parameter, locals: { parameter: parameter }
+      = haml :response

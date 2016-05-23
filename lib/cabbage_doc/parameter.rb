@@ -2,9 +2,9 @@ module CabbageDoc
   class Parameter
     include Parser
 
-    TYPES = %i(numeric string id enumeration array date time timestamp)
+    TYPES = %i(numeric decimal integer string id enumeration array date time timestamp hash)
 
-    attr_reader :label, :name, :type, :default, :values, :required
+    attr_reader :label, :name, :type, :type_label, :default, :values, :required
 
     def initialize
       @values = []
@@ -14,7 +14,9 @@ module CabbageDoc
       m = text.match(/^(.*?\s+\(.*?\).*?)\s+-\s+(.*?)$/)
       return false unless m
 
-      @name, @type, @required = parse_name_type_required(m[1].strip)
+      @name, @type_label, @required = parse_name_type_required(m[1].strip)
+      @type = @type_label.downcase.to_sym if @type_label
+
       @required = !!@required
 
       @label, @default, @values = parse_label_default_values(m[2].strip)
@@ -48,7 +50,7 @@ module CabbageDoc
     def parse_name_type_required(text)
       text.split(/\s+/).map(&:strip).map do |component|
         if component =~ /^\((.*?)\)$/
-          $1.downcase.to_sym
+          $1
         elsif component =~ /\[required\]/i
           true
         else

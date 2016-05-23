@@ -19,10 +19,8 @@ module CabbageDoc
                   :scheme,
                   :path,
                   :user_agent,
-                  :live,
                   :configurable,
-                  :verbose,
-                  :headless
+                  :verbose
 
     def initialize
       Configuration.instance.tap do |config|
@@ -34,8 +32,6 @@ module CabbageDoc
 
       @verbose = false
       @subdomains = []
-      @live = true
-      @headless = false
       @configurable = []
       @type = :basic
     end
@@ -51,12 +47,8 @@ module CabbageDoc
       end
     end
 
-    def headless?
-      @headless == true
-    end
-
     def configurable?
-      @configurable.any? || @subdomains.any?
+      @configurable.any?
     end
   end
 end
