@@ -85,8 +85,6 @@ $(document).ready(function()
       return v.value.length > 0;
     });
 
-    console.log(data);
-
     $.ajax('/', {
       data: $.param(data),
       method: 'POST',
