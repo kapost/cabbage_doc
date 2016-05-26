@@ -4,7 +4,6 @@ require 'cabbage_doc/version'
 Gem::Specification.new do |s|
   s.name          = 'cabbage_doc'
   s.version       = CabbageDoc::VERSION
-  s.date          = '2016-05-09'
   s.summary       = 'Interactive API documentation generator and validator.'
   s.description   = 'A lean and mean *interactive API* documentation generator and validator.'
   s.authors       = ['Mihail Szabolcs']
