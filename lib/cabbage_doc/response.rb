@@ -22,8 +22,10 @@ module CabbageDoc
 
     private
 
-    def prettify(hash)
-      JSON.pretty_generate(hash)
+    def prettify(data)
+      JSON.pretty_generate(data)
+    rescue
+      data.to_s
     end
 
     def convert_headers(response)
