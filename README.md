@@ -57,6 +57,7 @@ The default UI is a mountable Sinatra application. It's perfectly fine to mount
 it within a Rails application, namely `config/routes.rb`.
 
 ```ruby
+match 'docs', to: redirect { |_, r| "#{r.path}/" }, via: :all, constraints: lambda { |r| !r.original_fullpath.end_with?('/') }
 mount CabbageDoc::Web, at: '/docs'
 ```
 
