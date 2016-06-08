@@ -21,7 +21,7 @@ CabbageDoc.configure do |config|
 
   config.domain = 'example.com'
 
-  config.authenticate = proc do |auth, request|
+  config.authentication = proc do |auth, request|
     auth.type = :basic
     auth.username = request.params[:username]
     auth.password = request.params[:password]
