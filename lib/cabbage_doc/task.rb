@@ -9,6 +9,7 @@ module CabbageDoc
       new.tap do |instance|
         yield instance if block_given?
         instance.validate!
+        instance.sort!
         instance.define!
       end
     end
@@ -18,23 +19,8 @@ module CabbageDoc
       @name = :cabbagedoc
     end
 
-    def contracts=(value)
-      if value
-        @processors.delete(:rspec) if @processors.include?(:rspec)
-        @processors << :contracts
-        @processors << :rspec
-      else
-        @processors.delete(:contracts)
-      end
-    end
-
-    def rspec=(value)
-      if value
-        @processors << :contracts unless @processors.include?(:contracts)
-        @processors << :rspec
-      else
-        @processors.delete(:rspec)
-      end
+    def sort!
+      processors.sort! { |processor| Processor::PRIORITIES.index(Processor.all[processor].priority) }
     end
 
     def define!

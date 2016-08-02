@@ -1,10 +1,23 @@
 module CabbageDoc
   class Processor
-    class InvalidProcessorError < StandardError; end
+    class Error < StandardError; end
+    class InvalidType < Error; end
+    class InvalidPriority < Error; end
+
+    PRIORITIES = [:high, :medium, :low].freeze
 
     class << self
       def inherited(klass)
         all[klass.to_s.split('::').last.downcase.to_sym] = klass
+      end
+
+      def priority(value = nil)
+        if value.is_a?(Symbol)
+          raise InvalidPriority, value unless PRIORITIES.include?(value)
+          @_priority = value
+        else
+          @_priority
+        end
       end
 
       def all
@@ -17,7 +30,7 @@ module CabbageDoc
         if klass
           klass.new.perform
         else
-          raise InvalidProcessorError, type
+          raise InvalidType, type
         end
       end
 
@@ -33,6 +46,10 @@ module CabbageDoc
     end
 
     protected
+
+    def cache
+      @_cache ||= Cache.new
+    end
 
     def client
       @_client ||= Client.new(auth)

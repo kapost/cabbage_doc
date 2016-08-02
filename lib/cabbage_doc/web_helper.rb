@@ -30,5 +30,9 @@ module CabbageDoc
     def auth
       @_auth ||= Authentication.new(request)
     end
+
+    def post_request
+      @_post_request ||= Request.new(request, collection)
+    end
   end
 end

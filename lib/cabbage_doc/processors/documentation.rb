@@ -1,6 +1,8 @@
 module CabbageDoc
   module Processors 
     class Documentation < Processor
+      priority :high
+
       def perform
         collection.clear!
 

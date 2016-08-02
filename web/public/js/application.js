@@ -1,5 +1,43 @@
 $(document).ready(function()
 {
+  function compose_path(path)
+  {
+    return [window.location.pathname, path].join('/').replace(/\/\/+/, '/');
+  }
+
+  function submit_buttons()
+  {
+    return $('.controller .action form input[type=submit]');
+  }
+
+  function disable_submit_buttons()
+  {
+    submit_buttons().attr('disabled', true);
+  }
+
+  function enable_submit_buttons()
+  {
+    submit_buttons().attr('disabled', false);
+  }
+
+  function display_response(form, data)
+  {
+    var json = data.responseJSON || {};
+
+    var response = form.find('.response');
+    response.removeClass('hidden');
+
+    response.find('.url').html(json.url);
+    response.find('.query').html(json.query);
+    response.find('.code').html(json.code);
+    response.find('.headers').html(json.headers);
+    response.find('.body').html(json.body);
+
+    form.find('.clear').removeClass('hidden');
+
+    enable_submit_buttons();
+  }
+
   $('.controller .resource a').click(function()
   {
     $(this).closest('.controller').find('.actions').toggleClass('hidden');
@@ -63,6 +101,8 @@ $(document).ready(function()
   {
     e.preventDefault();
 
+    disable_submit_buttons();
+
     var form = $(this).closest('form');
 
     var data = $('.authentication form').serializeArray().concat(form.serializeArray());
@@ -85,7 +125,31 @@ $(document).ready(function()
       return v.value.length > 0;
     });
 
-    $.ajax('/', {
+    function retry_later(form, id, retries)
+    {
+      if(retries == 0)
+      {
+        display_response(form, {});
+        return;
+      }
+
+      setTimeout(function()
+      {
+        $.ajax(compose_path('/' + id), {
+          method: 'GET',
+          dataType: 'json',
+          complete: function(data)
+          {
+            if(data.status == 503)
+              retry_later(form, id, retries - 1);
+            else
+              display_response(form, data);
+          }
+        });
+      }, 1000);
+    }
+
+    $.ajax(compose_path('/'), {
       data: $.param(data),
       method: 'POST',
       dataType: 'json',
@@ -93,17 +157,11 @@ $(document).ready(function()
       {
         var json = data.responseJSON || {};
 
-        var response = form.find('.response');
-        response.removeClass('hidden');
-
-        response.find('.url').html(json.url);
-        response.find('.query').html(json.query);
-        response.find('.code').html(json.code);
-        response.find('.headers').html(json.headers);
-        response.find('.body').html(json.body);
-
-        form.find('.clear').removeClass('hidden');
-      },
+        if(data.status == 503 && typeof json.id != 'undefined')
+          retry_later(form, json.id, 10);
+        else
+          display_response(form, data);
+      }
     });
 
     return false;

@@ -8,13 +8,15 @@ module CabbageDoc
       title: 'Cabbage Doc',
       scheme: 'https',
       verbose: false,
-      dev: false
+      dev: false,
+      cache: Cache.new,
+      request: proc { |request| request.perform }
     }.freeze
 
-    OPTIONAL_ATTRIBUTES = %i(welcome path scheme version title verbose authentication dev).freeze
+    OPTIONAL_ATTRIBUTES = %i(welcome path scheme version title verbose authentication dev request cache).freeze
     REQUIRED_ATTRIBUTES = %i(domain controllers root).freeze
     ATTRIBUTES          = (OPTIONAL_ATTRIBUTES + REQUIRED_ATTRIBUTES).freeze
-    CALLABLE_ATTRIBUTES = %i(controllers authentication).freeze
+    CALLABLE_ATTRIBUTES = %i(controllers authentication request).freeze
 
     attr_accessor *ATTRIBUTES 
 

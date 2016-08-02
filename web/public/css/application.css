@@ -178,6 +178,11 @@ a:hover
   margin-top: 10px;
 }
 
+.action .response pre
+{
+  overflow: hidden;
+}
+
 .action .description
 {
   margin-bottom: 20px;

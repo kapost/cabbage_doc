@@ -1,6 +1,14 @@
+require 'yaml'
+
 module CabbageDoc
   class Response
     attr_reader :url, :headers, :params, :code, :body
+
+    class << self
+      def parse(s)
+        YAML.load(s)
+      end
+    end
 
     def initialize(url, params, response)
       @url = url
@@ -8,6 +16,10 @@ module CabbageDoc
       @headers = convert_headers(response)
       @code = response.code
       @body = response.parsed_response
+    end
+
+    def to_yaml
+      YAML.dump(self)
     end
 
     def to_json

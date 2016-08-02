@@ -25,12 +25,27 @@ module CabbageDoc
       haml :index
     end
 
-    post '/' do
-      response = Request.new(request, collection).perform
+    get '/:id' do
+      response = Worker.get(params[:id])
 
-      if response
-        content_type :json 
+      if response.is_a?(Response)
+        content_type :json
         response.to_json
+      else
+        halt 503
+      end
+    end
+
+    post '/' do
+      response = Configuration.instance.request.call(post_request)
+
+      if response.is_a?(Response)
+        content_type :json
+        response.to_json
+      elsif post_request.valid?
+        status 503
+        content_type :json
+        { id: post_request.id }.to_json
       else
         halt 500
       end

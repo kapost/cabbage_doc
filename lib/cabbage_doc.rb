@@ -4,7 +4,6 @@ module CabbageDoc
   autoload :Path,           'cabbage_doc/path'
   autoload :Singleton,      'cabbage_doc/singleton'
   autoload :Cloneable,      'cabbage_doc/cloneable'
-  autoload :PactoHelper,    'cabbage_doc/pacto_helper'
   autoload :Parser,         'cabbage_doc/parser'
   autoload :Client,         'cabbage_doc/client'
   autoload :Request,        'cabbage_doc/request'
@@ -22,6 +21,8 @@ module CabbageDoc
   autoload :Processor,      'cabbage_doc/processor'
   autoload :Customizer,     'cabbage_doc/customizer'
   autoload :Task,           'cabbage_doc/task'
+  autoload :Worker,         'cabbage_doc/worker'
+  autoload :Cache,          'cabbage_doc/cache'
 
   class << self
     def configure
