@@ -175,15 +175,6 @@ end
 By running `rake cabbagedoc`, CabbageDoc parses all comments and generates
 the necessary metadata which is then used to render the documentation.
 
-What's Missing
---------------
-The following *features* have not been implemented yet:
-
-- generating contracts from *examples* via [Pacto](https://github.com/thoughtworks/pacto)
-- generating specs (rspec) from *examples* which are then validated via [Pacto](https://github.com/thoughtworks/pacto)
-
-Also, at this very moment there are no `specs` :(.
-
 Contribute
 ----------
 - Fork the project.
