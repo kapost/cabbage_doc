@@ -1,5 +1,9 @@
 module CabbageDoc
   module WebHelper
+    def asset_path(path)
+      [request.path, path].join('/').gsub(/\/\/+/, '/')
+    end
+
     def config
       Configuration.instance
     end
