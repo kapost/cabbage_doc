@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cabbage_doc (0.0.2)
+    cabbage_doc (0.0.3)
       httparty
       json
       rake (>= 10.0)
