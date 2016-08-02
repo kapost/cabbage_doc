@@ -69,6 +69,19 @@ CabbageDoc::Web.use(Rack::Auth::Basic) do |username, password|
 end
 ```
 
+By default, the documentation used by the UI is regenerated only by running the *documentation generation* rake task.
+
+This behavior can be changed by setting the `dev` property to `true` in the configuration block.
+
+```ruby
+CabbageDoc.configure do |config|
+  config.dev = ENV.fetch('RACK_ENV', 'development').eql?('development')
+end
+```
+
+When *dev* is set to *true*, the documentation will be regenerated on each request.
+
+#### Customizations
 If you do not fancy the default UI, you can customize it to suit your own needs.
 
 In order to do that, you will have to run the `customize` rake task.

@@ -5,6 +5,11 @@ module CabbageDoc
     end
 
     def collection
+      if config.dev
+        Processor.perform(:documentation)
+        @_collection = nil
+      end
+
       @_collection ||= Collection.instance.tap do |collection|
         collection.load!
       end

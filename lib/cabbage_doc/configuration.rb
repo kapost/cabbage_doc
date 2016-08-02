@@ -7,10 +7,11 @@ module CabbageDoc
       path: 'api/v1',
       title: 'Cabbage Doc',
       scheme: 'https',
-      verbose: false
+      verbose: false,
+      dev: false
     }.freeze
 
-    OPTIONAL_ATTRIBUTES = %i(welcome path scheme version title verbose authentication).freeze
+    OPTIONAL_ATTRIBUTES = %i(welcome path scheme version title verbose authentication dev).freeze
     REQUIRED_ATTRIBUTES = %i(domain controllers root).freeze
     ATTRIBUTES          = (OPTIONAL_ATTRIBUTES + REQUIRED_ATTRIBUTES).freeze
     CALLABLE_ATTRIBUTES = %i(controllers authentication).freeze
