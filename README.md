@@ -80,7 +80,7 @@ end
 
 When *dev* is set to *true*, the documentation will be regenerated on each request.
 
-#### Customizations
+#### Customize
 If you do not fancy the default UI, you can customize it to suit your own needs.
 
 In order to do that, you will have to run the `customize` rake task.
