@@ -6,12 +6,7 @@ module CabbageDoc
       def new(auth)
         Class.new(self) do |klass|
           klass.headers "User-Agent" => auth.user_agent
-    
-          if auth.subdomain
-            klass.base_uri "#{auth.scheme}://#{auth.subdomain}.#{auth.domain}/#{auth.path}"
-          else
-            klass.base_uri "#{auth.scheme}://#{auth.domain}/#{auth.path}"
-          end
+          klass.base_uri auth.uri
 
           if auth.type == :basic
             klass.basic_auth auth.username, auth.password

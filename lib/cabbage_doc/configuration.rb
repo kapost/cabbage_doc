@@ -3,7 +3,6 @@ module CabbageDoc
     include Singleton
 
     DEFAULTS = {
-      version: 'v1',
       path: 'api/v1',
       title: 'Cabbage Doc',
       scheme: 'https',
@@ -14,7 +13,7 @@ module CabbageDoc
       theme: 'github'
     }.freeze
 
-    OPTIONAL_ATTRIBUTES = %i(welcome path scheme version title verbose authentication dev request cache theme).freeze
+    OPTIONAL_ATTRIBUTES = %i(welcome path scheme title verbose authentication dev request cache theme).freeze
     REQUIRED_ATTRIBUTES = %i(domain controllers root).freeze
     ATTRIBUTES          = (OPTIONAL_ATTRIBUTES + REQUIRED_ATTRIBUTES).freeze
     CALLABLE_ATTRIBUTES = %i(controllers authentication request).freeze

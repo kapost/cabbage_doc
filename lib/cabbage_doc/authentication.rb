@@ -36,6 +36,14 @@ module CabbageDoc
       @type = :basic
     end
 
+    def uri
+      if path && path != '/'
+        "#{root_uri}/#{path}"
+      else
+        root_uri
+      end
+    end
+
     def valid?
       case type
       when :basic
@@ -49,6 +57,16 @@ module CabbageDoc
 
     def configurable?
       @configurable.any?
+    end
+
+    private
+
+    def root_uri
+      if subdomain
+        "#{scheme}://#{subdomain}.#{domain}"
+      else
+        "#{scheme}://#{domain}"
+      end
     end
   end
 end

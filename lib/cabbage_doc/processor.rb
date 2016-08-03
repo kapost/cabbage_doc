@@ -64,6 +64,10 @@ module CabbageDoc
         collection.load!
       end
     end
+
+    def config
+      @_config ||= Configuration.instance
+    end
   end
 
   Processor.load!

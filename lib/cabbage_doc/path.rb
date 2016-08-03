@@ -2,7 +2,7 @@ module CabbageDoc
   class Path
     class << self
       def join(*args)
-        args.join('/').gsub(/\/+/, '/')
+        args.join('/').gsub(/\/+/, '/').gsub(/\/+$/, '')
       end
     end
   end

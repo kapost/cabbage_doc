@@ -6,7 +6,7 @@ module CabbageDoc
       def perform
         collection.clear!
 
-        Configuration.instance.controllers.call.each do |filename|
+        config.controllers.call.each do |filename|
           collection.parse!(filename)
         end
 
