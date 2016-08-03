@@ -158,7 +158,7 @@ $(document).ready(function()
         var json = data.responseJSON || {};
 
         if(data.status == 503 && typeof json.id != 'undefined')
-          retry_later(form, json.id, 10);
+          retry_later(form, json.id, 30);
         else
           display_response(form, data);
       }

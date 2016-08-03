@@ -1,6 +1,6 @@
 module CabbageDoc
   module Worker
-    EXPIRES_IN = 60.freeze # 60 seconds
+    EXPIRES_IN = 30.freeze # 30 seconds
 
     class << self
       def get(id)
