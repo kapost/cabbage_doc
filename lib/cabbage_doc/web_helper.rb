@@ -43,5 +43,18 @@ module CabbageDoc
     def post_request
       @_post_request ||= Request.new(request, collection)
     end
+
+    def response_by_id(id)
+      response = Worker.get(id)
+
+      if response.is_a?(Response)
+        content_type :json
+        response.to_json
+      else
+        status 503
+        content_type :json
+        { id: id }.to_json
+      end
+    end
   end
 end

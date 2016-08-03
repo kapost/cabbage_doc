@@ -26,14 +26,7 @@ module CabbageDoc
     end
 
     get '/:id' do
-      response = Worker.get(params[:id])
-
-      if response.is_a?(Response)
-        content_type :json
-        response.to_json
-      else
-        halt 503
-      end
+      response_by_id(params[:id])
     end
 
     post '/' do
@@ -43,9 +36,7 @@ module CabbageDoc
         content_type :json
         response.to_json
       elsif post_request.valid?
-        status 503
-        content_type :json
-        { id: post_request.id }.to_json
+        response_by_id(post_request.id)
       else
         halt 500
       end
