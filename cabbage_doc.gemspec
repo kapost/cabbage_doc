@@ -4,8 +4,8 @@ require 'cabbage_doc/version'
 Gem::Specification.new do |s|
   s.name          = 'cabbage_doc'
   s.version       = CabbageDoc::VERSION
-  s.summary       = 'Interactive API documentation generator and validator.'
-  s.description   = 'A lean and mean *interactive API* documentation generator and validator.'
+  s.summary       = 'Interactive API documentation generator.'
+  s.description   = 'A lean and mean *interactive API* documentation generator.'
   s.authors       = ['Mihail Szabolcs']
   s.email         = 'szaby@kapost.com'
   s.files         = Dir.glob('{lib,web}/**/*.{rb,css,js,haml}')
