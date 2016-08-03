@@ -7,6 +7,11 @@ body
 pre, code, .authentication form
 {
 	font-family: monospace;
+	border: 1px solid #e5e0c6;
+}
+
+.authentication form
+{
 	background-color: #fcf6db;
 	border: 1px solid #e5e0c6;
 	padding: 10px;

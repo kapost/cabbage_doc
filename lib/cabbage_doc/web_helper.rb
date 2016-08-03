@@ -4,6 +4,10 @@ module CabbageDoc
       [request.path, path].join('/').gsub(/\/\/+/, '/')
     end
 
+    def theme_path
+      asset_path("css/highlight/#{config.theme}.css")
+    end
+
     def config
       Configuration.instance
     end
@@ -20,7 +24,12 @@ module CabbageDoc
     end
 
     def markdown
-      @_markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
+      @_markdown ||= Redcarpet::Markdown.new(
+        Redcarpet::Render::HTML.new,
+        tables: true,
+        fenced_code_blocks: true,
+        autolink: true
+      )
     end
 
     def title

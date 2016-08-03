@@ -10,10 +10,11 @@ module CabbageDoc
       verbose: false,
       dev: false,
       cache: Cache.new,
-      request: proc { |request| request.perform }
+      request: proc { |request| request.perform },
+      theme: 'github'
     }.freeze
 
-    OPTIONAL_ATTRIBUTES = %i(welcome path scheme version title verbose authentication dev request cache).freeze
+    OPTIONAL_ATTRIBUTES = %i(welcome path scheme version title verbose authentication dev request cache theme).freeze
     REQUIRED_ATTRIBUTES = %i(domain controllers root).freeze
     ATTRIBUTES          = (OPTIONAL_ATTRIBUTES + REQUIRED_ATTRIBUTES).freeze
     CALLABLE_ATTRIBUTES = %i(controllers authentication request).freeze
