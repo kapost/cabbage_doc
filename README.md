@@ -1,6 +1,6 @@
 CabbageDoc
 ==========
-A lean and mean *interactive API* documentation generator and validator.
+A lean and mean *interactive API* documentation generator.
 
 Getting Started
 ---------------
@@ -74,7 +74,7 @@ This behavior can be changed by setting the `dev` property to `true` in the conf
 
 ```ruby
 CabbageDoc.configure do |config|
-  config.dev = ENV.fetch('RACK_ENV', 'development').eql?('development')
+  config.dev = Rails.env.development?
 end
 ```
 
