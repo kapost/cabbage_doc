@@ -27,12 +27,14 @@ module CabbageDoc
       namespace name do
         processors.each do |processor|
           desc "Process #{processor}"
-          task processor.to_s => :environment do
-            Processor.all[processor].new.perform
+          namespace :process do
+            task processor.to_s => :environment do
+              Processor.all[processor].new.perform
+            end
           end
         end
 
-        desc "Customize Web"
+        desc "Customize Web UI"
         task :customize => :environment do
           Customizer.new.perform
         end
