@@ -1,4 +1,5 @@
 require 'yaml'
+require 'ostruct'
 require 'digest/sha1'
 
 module CabbageDoc
@@ -11,7 +12,7 @@ module CabbageDoc
       def parse(s)
         variables = YAML.load(s)
 
-        new(nil, Collection.instance).tap do |instance|
+        new(OpenStruct.new(params: {}, env: {}), Collection.instance).tap do |instance|
           [:@_id, :@_auth, :@_action, :@_method, :@_params].each_with_index do |k, i|
             instance.instance_variable_set(k, variables[i])
           end

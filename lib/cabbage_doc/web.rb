@@ -30,7 +30,7 @@ module CabbageDoc
     end
 
     post '/' do
-      response = Configuration.instance.request.call(post_request)
+      response = Configuration.instance.request.call(post_request) if post_request.valid?
 
       if response.is_a?(Response)
         content_type :json
