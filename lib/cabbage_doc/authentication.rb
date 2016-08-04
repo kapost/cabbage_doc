@@ -20,7 +20,8 @@ module CabbageDoc
                   :path,
                   :user_agent,
                   :configurable,
-                  :verbose
+                  :verbose,
+                  :visibility
 
     def initialize
       Configuration.instance.tap do |config|
@@ -28,12 +29,17 @@ module CabbageDoc
         @scheme     = config.scheme
         @path       = config.path
         @user_agent = config.title
+        @verbose    = config.verbose
+        @visibility = config.visibility.dup
       end
 
-      @verbose = false
       @subdomains = []
       @configurable = []
       @type = :basic
+    end
+
+    def visibility=(value)
+      @visibility = Array(value)
     end
 
     def uri

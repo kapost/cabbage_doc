@@ -5,11 +5,12 @@ module CabbageDoc
     METHODS = %w(GET POST PUT DELETE).freeze
     METHODS_REGEXP = METHODS.join('|').freeze
 
-    attr_reader :label, :name, :description, :path, :method, :parameters, :examples
+    attr_reader :label, :name, :description, :path, :method, :parameters, :examples, :visibility
 
     def initialize
       @parameters = []
       @examples = []
+      @visibility = VISIBILITY.first
     end
 
     def parse(text)
@@ -19,6 +20,7 @@ module CabbageDoc
       @name = parse_name(text)
       @label = parse_label(text)
       @description = parse_description(text)
+      @visibility = parse_visibility(text)
 
       @parameters, @examples = parse_parameters_and_examples(text)
 
@@ -74,13 +76,22 @@ module CabbageDoc
     end
 
     def parse_label(text)
-      m = text.match(/#\s*Public:(.*?)$/)
-      m[1].strip if m
+      m = text.match(/#\s*(#{VISIBILITY_REGEXP}):(.*?)$/)
+      m[2].strip if m
     end
 
     def parse_description(text)
       m = text.match(/#\s*Description:(.*?)$/)
       m[1].strip if m
+    end
+
+    def parse_visibility(text)
+      m = text.match(/#\s*(#{VISIBILITY_REGEXP}):(.*?)$/)
+      if m
+        m[1].strip.downcase.to_sym
+      else
+        VISIBILITY.first
+      end
     end
   end
 end

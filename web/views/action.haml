@@ -4,6 +4,7 @@
   .subresource
     %a{ href: 'javascript:void(0);' }= action.path
     %span= " : #{action.label}"
+    %span.visibility= format_visibility(action)
   .clear
   %form.hidden{ action: action.path, method: action.method }
     - if action.description

@@ -40,6 +40,14 @@ module CabbageDoc
       @_auth ||= Authentication.new(request)
     end
 
+    def visible?(o)
+      auth.visibility.include?(o.visibility)
+    end
+
+    def format_visibility(o)
+      o.visibility.to_s.capitalize if o.visibility != VISIBILITY.first
+    end
+
     def post_request
       @_post_request ||= Request.new(request, collection)
     end

@@ -49,9 +49,25 @@ a:hover
 	display: none !important; 
 }
 
+.left
+{
+  float: left;
+}
+
+.right
+{
+  float: right;
+}
+
 .clear
 {
 	clear: both;
+}
+
+.visibility
+{
+  font-style: italic;
+  float: right;
 }
 
 .application
@@ -137,7 +153,6 @@ a:hover
 
 .action .subresource
 {
-	float: left;
 	line-height: 31px;
 }
 

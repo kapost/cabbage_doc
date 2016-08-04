@@ -1,3 +1,4 @@
 .controllers
   - collection.each do |controller|
-    = haml :controller, locals: { controller: controller }
+    - if visible?(controller)
+      = haml :controller, locals: { controller: controller }

@@ -2,6 +2,8 @@ CabbageDoc
 ==========
 A lean and mean *interactive API* documentation generator.
 
+![Screenshot](cabbage_doc.png)
+
 Getting Started
 ---------------
 CabbageDoc has been designed from the ground-up to be easy to configure and use.

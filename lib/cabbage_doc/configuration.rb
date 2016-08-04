@@ -8,12 +8,13 @@ module CabbageDoc
       scheme: 'https',
       verbose: false,
       dev: false,
+      visibility: [VISIBILITY.first],
       cache: Cache.new,
       request: proc { |request| request.perform },
       theme: 'github'
     }.freeze
 
-    OPTIONAL_ATTRIBUTES = %i(welcome path scheme title verbose authentication dev request cache theme).freeze
+    OPTIONAL_ATTRIBUTES = %i(welcome path scheme title verbose authentication dev request cache theme visibility).freeze
     REQUIRED_ATTRIBUTES = %i(domain controllers root).freeze
     ATTRIBUTES          = (OPTIONAL_ATTRIBUTES + REQUIRED_ATTRIBUTES).freeze
     CALLABLE_ATTRIBUTES = %i(controllers authentication request).freeze
@@ -30,6 +31,7 @@ module CabbageDoc
       validate_required!
       validate_callable!
       validate_root!
+      validate_visibility!
     end
 
     private
@@ -50,6 +52,13 @@ module CabbageDoc
 
     def validate_root!
       raise ArgumentError, "#{root} directory doesn't exist" unless Dir.exists?(root)
+    end
+
+    def validate_visibility!
+      self.visibility = Array(visibility)
+      self.visibility.each do |v|
+        raise ArgumentError, "#{v} invalid visibility" unless VISIBILITY.include?(v)
+      end
     end
   end
 end

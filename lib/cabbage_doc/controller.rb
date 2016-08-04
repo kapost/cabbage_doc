@@ -3,14 +3,15 @@ module CabbageDoc
     include Parser
     include Cloneable
 
-    attr_reader :label, :klass, :name, :path, :actions
+    attr_reader :label, :klass, :name, :path, :actions, :visibility
 
     def initialize
       @actions = []
+      @visibility = VISIBILITY.first
     end
 
     def parse(text)
-      @label, @path, @klass = parse_label_path_and_class(text)
+      @label, @path, @klass, @visibility = parse_label_path_class_and_visibility(text)
       return false unless @label && @klass
 
       @name = compose_name(klass)
@@ -67,23 +68,42 @@ module CabbageDoc
       compose_label({}, klass).downcase
     end
 
-    def parse_label_path_and_class(text)
+    def compose_visbility(metadata)
+      metadata[:visibility] || :public
+    end
+
+    def parse_label_path_class_and_visibility(text)
       klass = parse_class(text)
       return unless klass
 
       metadata = parse_metadata(text)
 
-      [compose_label(metadata, klass), compose_path(metadata, klass), klass]
+      [
+        compose_label(metadata, klass),
+        compose_path(metadata, klass),
+        klass,
+        compose_visbility(metadata)
+      ]
     end
 
     def parse_actions(text)
       actions = []
 
-      text.scan(/(#\s*Public:\s*.*?(#{Action::METHODS_REGEXP}):.*?def\s+.*?\s*#\s*#{MARKER})/m) do
-        actions << Action.parse($1.strip)
+      text.scan(/(#\s*(#{VISIBILITY_REGEXP}):\s*.*?(#{Action::METHODS_REGEXP}):.*?def\s+.*?\s*#\s*#{MARKER})/m) do
+        actions << Action.parse(parse_action($1))
       end 
 
       actions.compact
+    end
+
+    def parse_action(text)
+      new_text = text.strip
+
+      if new_text.scan(/#\s*(#{VISIBILITY_REGEXP}):\s*/).size > 1
+        new_text.sub(/#\s*(#{VISIBILITY_REGEXP}):.*?#\s*(#{VISIBILITY_REGEXP}):/m, '# \2:').strip
+      else
+        new_text
+      end
     end
 
     def parse_class(text)
@@ -92,17 +112,29 @@ module CabbageDoc
     end
 
     def parse_metadata(text)
-      m = text.match(/(#\s*Public:\s*.*?class\s+.*?\s*#\s*#{MARKER})/m)
+      m = text.match(/(#\s*(#{VISIBILITY_REGEXP}):\s*.*?class\s+.*?\s*#\s*#{MARKER})/m)
       return {} unless m
 
       metadata = m[1].strip
 
       {}.tap do |hash|
-        m = metadata.match(/#\s*Public:(.*?)$/)
-        hash[:label] = m[1].strip if m
+        m = metadata.match(/#\s*(#{VISIBILITY_REGEXP}):(.*?)$/)
+        if m
+          hash[:visibility] = parse_visibility(m[1])
+          hash[:label] = m[2].strip
+        end
 
         m = metadata.match(/#\s*PATH:\s*\/(.*?)$/)
         hash[:path] = m[1].strip if m
+      end
+    end
+
+    def parse_visibility(text)
+      visibility = text.to_s.strip.downcase
+      if visibility.size > 0
+        visibility.to_sym
+      else
+        VISIBILITY.first
       end
     end
 
