@@ -4,8 +4,13 @@ module CabbageDoc
 
     class << self
       def get(id)
-        response = CabbageDoc::Configuration.instance.cache.read([CabbageDoc::MARKER, id].join('_'))
-        Response.parse(response) if response
+        cache_id = [CabbageDoc::MARKER, id].join('_')
+        response = CabbageDoc::Configuration.instance.cache.read(cache_id)
+
+        if response
+          CabbageDoc::Configuration.instance.cache.delete(cache_id)
+          Response.parse(response)
+        end
       end
     end
 
