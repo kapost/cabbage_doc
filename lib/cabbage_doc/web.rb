@@ -5,6 +5,8 @@ require 'json'
 require 'cgi'
 
 module CabbageDoc
+  module Helpers; end
+
   class Web < Sinatra::Base
     ROOT = File.expand_path("../../../web", __FILE__).freeze
 
@@ -20,6 +22,15 @@ module CabbageDoc
     set :views, proc { "#{root}/views" }
 
     helpers WebHelper
+
+    Dir.glob("#{root}/**/*.rb").sort.each do |helper|
+      require helper
+    end
+
+    CabbageDoc::Helpers.constants.each do |c|
+      mod = CabbageDoc::Helpers.const_get(c)
+      helpers mod if mod.is_a?(Module)
+    end
 
     get '/' do
       haml :index
