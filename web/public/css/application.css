@@ -207,3 +207,11 @@ a:hover
 {
   margin-bottom: 10px;
 }
+
+.warning
+{
+  border: 2px solid #FFC40F;
+  background-color: #FFF8E1;
+  padding: 10px;
+  margin-bottom: 10px;
+}

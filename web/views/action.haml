@@ -9,6 +9,8 @@
   %form.hidden{ action: action.path, method: action.method }
     - if action.description
       .description= action.description
+    - if action.visibility == :beta
+      .warning= 'This API is still under development and will continue to evolve.'
     - if config.examples && action.examples.any?
       .examples
         - action.examples.each do |example|
