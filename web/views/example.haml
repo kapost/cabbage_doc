@@ -1,0 +1,5 @@
+.example
+  .label="#{example.label}:"
+  %pre
+    %code.bash
+      = config.format_example.call(example, action, auth)

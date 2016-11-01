@@ -1,3 +1,5 @@
+require 'cgi'
+
 module CabbageDoc
   class Example
     include Parser
@@ -16,6 +18,10 @@ module CabbageDoc
       @params = parse_option(m[2].strip)
 
       valid?
+    end
+
+    def to_query
+      params.map { |k, v| "#{k}=#{CGI.escape(v)}" }.join("&")
     end
 
     def valid?

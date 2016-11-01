@@ -54,10 +54,8 @@ module CabbageDoc
       case type
       when :basic
         username && password
-      when :token
-        !token.nil?
       else
-        false
+        !token.nil?
       end
     end
 

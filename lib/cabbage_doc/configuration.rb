@@ -2,6 +2,34 @@ module CabbageDoc
   class Configuration
     include Singleton
 
+    class << self
+      def format_example(example, action, auth)
+        cmd = ["$", "curl"]
+
+        if auth.type == :basic
+          cmd << "-u \"user:pass\""
+        elsif auth.token
+          cmd << "-H \"Authorization: #{auth.type.to_s.capitalize} token\""
+        end
+
+        if action.method == "GET"
+          path = [action.path, example.to_query].join("?")
+        else
+          cmd << "-X #{action.method}"
+
+          example.params.each do |k, v|
+            cmd << "-d \"#{k}=#{v}\""
+          end
+
+          path = action.path
+        end
+
+        cmd << "\"#{[auth.uri, path].join}\""
+
+        cmd.join(' ')
+      end
+    end
+
     DEFAULTS = {
       path: 'api/v1',
       title: 'Cabbage Doc',
@@ -11,13 +39,15 @@ module CabbageDoc
       visibility: [VISIBILITY.first],
       cache: Cache.new,
       request: proc { |request| request.perform },
-      theme: 'github'
+      theme: 'github',
+      examples: false,
+      format_example: method(:format_example)
     }.freeze
 
-    OPTIONAL_ATTRIBUTES = %i(welcome path scheme title verbose authentication dev request cache theme visibility).freeze
+    OPTIONAL_ATTRIBUTES = %i(welcome path scheme title verbose authentication dev request cache theme visibility examples format_example).freeze
     REQUIRED_ATTRIBUTES = %i(domain controllers root).freeze
     ATTRIBUTES          = (OPTIONAL_ATTRIBUTES + REQUIRED_ATTRIBUTES).freeze
-    CALLABLE_ATTRIBUTES = %i(controllers authentication request).freeze
+    CALLABLE_ATTRIBUTES = %i(controllers authentication request format_example).freeze
 
     attr_accessor *ATTRIBUTES 
 

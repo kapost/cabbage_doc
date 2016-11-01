@@ -9,8 +9,12 @@
   %form.hidden{ action: action.path, method: action.method }
     - if action.description
       .description= action.description
+    - if config.examples && action.examples.any?
+      .examples
+        - action.examples.each do |example|
+          = haml :example, locals: { action: action, example: example }
     - if action.parameters.any?
-      %table
+      %table.parameters
         %tr
           %th='Parameter'
           %th='Value'
