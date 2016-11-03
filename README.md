@@ -174,8 +174,75 @@ def destroy # :cabbagedoc:
 end
 ```
 
+The `description` is processed via Markdown.
+
+#### Parameters
+
+Here is a list of all `parameter` types:
+
+- Numeric
+- Decimal
+- Integer
+- String
+- Id
+- Enumeration
+- Array
+- Hash
+- Date
+- Time
+- Timestamp
+
+An `Enumeration` represents a finite number of choices (think of it as a select box).
+
+```ruby
+# detail (Enumeration) - level of detail (default: basic, values: full|basic)
+```
+
+The values are separated by `|` and it is possible to provide a default value.
+
+If there is no default value, then `nothing` will be selected by default. However if the
+parameter in question is required, a default value **MUST** be provided.
+
 By running `rake cabbagedoc`, CabbageDoc parses all comments and generates
 the necessary metadata which is then used to render the documentation.
+
+An `Array` represents a flat array of values and a `Hash` a group of key-value pairs.
+
+Nested `hashes` are not supported at this point in time.
+
+#### Visibility
+In the examples above, we used the default `Public` visibility. Here is a list of all
+visibility options.
+
+- Public
+- Private
+- Internal
+- Beta
+
+By default only controllers and actions `marked` as `Public` will show up in the generated
+documentation.
+
+You can turn on additional visibility options in the initializer like so:
+
+```ruby
+config.authentication = proc do |auth, request|
+  auth.visibility += [:private, :internal, :beta]
+end
+```
+
+The `Beta` visibility will display a "warning" on each `marked` action.
+
+![Screenshot](cabbage_doc_warning.png)
+
+#### Examples
+It is also possible to provide examples for each action.
+
+```ruby
+# Examples:
+#   Example One - (detail: basic)
+```
+
+![Screenshot](cabbage_doc_example.png)
 
 Contribute
 ----------
