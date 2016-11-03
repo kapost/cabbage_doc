@@ -203,9 +203,6 @@ The values are separated by `|` and it is possible to provide a default value.
 If there is no default value, then `nothing` will be selected by default. However if the
 parameter in question is required, a default value **MUST** be provided.
 
-By running `rake cabbagedoc`, CabbageDoc parses all comments and generates
-the necessary metadata which is then used to render the documentation.
-
 An `Array` represents a flat array of values and a `Hash` a group of key-value pairs.
 
 Nested `hashes` are not supported at this point in time.
@@ -243,6 +240,9 @@ It is also possible to provide examples for each action.
 ```
 
 ![Screenshot](cabbage_doc_example.png)
+
+By running `rake cabbagedoc`, CabbageDoc parses all comments and generates
+the necessary metadata which is then used to render the documentation.
 
 Contribute
 ----------
