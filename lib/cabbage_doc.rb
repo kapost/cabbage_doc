@@ -1,6 +1,6 @@
 module CabbageDoc
   MARKER = ':cabbagedoc:'.freeze
-  VISIBILITY = %i(public private internal beta).freeze
+  VISIBILITY = %i(public private internal beta unreleased).freeze
   VISIBILITY_REGEXP = VISIBILITY.map(&:to_s).map(&:capitalize).join('|').freeze
 
   autoload :Path,           'cabbage_doc/path'
