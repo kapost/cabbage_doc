@@ -144,7 +144,7 @@ $(document).ready(function()
 
       setTimeout(function()
       {
-        $.ajax(compose_path('/' + id), {
+        $.ajax(compose_path('/api/' + id), {
           method: 'GET',
           dataType: 'json',
           complete: function(data)
@@ -158,7 +158,7 @@ $(document).ready(function()
       }, 1000);
     }
 
-    $.ajax(compose_path('/'), {
+    $.ajax(compose_path('/api'), {
       data: $.param(data),
       method: 'POST',
       dataType: 'json',
@@ -167,7 +167,7 @@ $(document).ready(function()
         var json = data.responseJSON || {};
 
         if(data.status == 503 && typeof json.id != 'undefined')
-          retry_later(form, json.id, 30);
+          retry_later(form, json.id, 5);
         else
           display_response(form, data);
       }

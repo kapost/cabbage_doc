@@ -1,9 +1,3 @@
-body
-{
-	margin: 0;
-	padding: 0;
-}
-
 pre, code, .authentication form
 {
 	font-family: monospace;
@@ -32,18 +26,6 @@ input[type=button], input[type=submit]
   min-width: 98px;
 }
 
-a, a:active, a:visited, a:hover
-{
-	color: #000000;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-a:hover
-{
-	text-decoration: underline;
-}
-
 .hidden
 {
 	display: none !important; 
@@ -68,12 +50,6 @@ a:hover
 {
   font-style: italic;
   float: right;
-}
-
-.application
-{
-	margin: 10px auto;
-	width: 1024px;
 }
 
 .welcome, .documentation, .authentication

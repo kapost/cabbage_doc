@@ -36,12 +36,27 @@ module CabbageDoc
       haml :index
     end
 
-    get '/:id' do
+    get '/:slug' do
+      slug = params[:slug].to_s.gsub(/[^a-z]/, '')
+      if slug.empty?
+        status 404
+        return
+      end
+
+      filename = File.join(config.root, config.page_root, "#{slug}.#{config.page_ext}")
+      if File.exists?(filename)
+        haml :page, layout: :page_layout, locals: { content: File.read(filename) }
+      else
+        status 404
+      end
+    end
+
+    get '/api/:id' do
       response_by_id(params[:id])
     end
 
-    post '/' do
-      response = Configuration.instance.request.call(post_request) if post_request.valid?
+    post '/api' do
+      response = config.request.call(post_request) if post_request.valid?
 
       if response.is_a?(Response)
         content_type :json

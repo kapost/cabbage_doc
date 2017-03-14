@@ -41,10 +41,12 @@ module CabbageDoc
       request: proc { |request| request.perform },
       theme: 'github',
       examples: false,
-      format_example: method(:format_example)
+      format_example: method(:format_example),
+      page_root: 'pages',
+      page_ext: 'md'
     }.freeze
 
-    OPTIONAL_ATTRIBUTES = %i(welcome path scheme title verbose authentication dev request cache theme visibility examples format_example).freeze
+    OPTIONAL_ATTRIBUTES = %i(welcome path scheme title verbose authentication dev request cache theme visibility examples format_example page_root page_ext root_asset_path).freeze
     REQUIRED_ATTRIBUTES = %i(domain controllers root).freeze
     ATTRIBUTES          = (OPTIONAL_ATTRIBUTES + REQUIRED_ATTRIBUTES).freeze
     CALLABLE_ATTRIBUTES = %i(controllers authentication request format_example).freeze
