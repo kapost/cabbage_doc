@@ -1,5 +1,5 @@
 module CabbageDoc
-  class Processor
+  class Generator
     class Error < StandardError; end
     class InvalidType < Error; end
     class InvalidPriority < Error; end
@@ -35,8 +35,8 @@ module CabbageDoc
       end
 
       def load!
-        Dir.glob(File.join(File.dirname(__FILE__), 'processors', '*.rb')).sort.each do |processor|
-          require(processor)
+        Dir.glob(File.join(File.dirname(__FILE__), 'generators', '*.rb')).sort.each do |generator|
+          require(generator)
         end
       end
     end
@@ -70,5 +70,5 @@ module CabbageDoc
     end
   end
 
-  Processor.load!
+  Generator.load!
 end

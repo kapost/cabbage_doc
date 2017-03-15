@@ -1,8 +1,7 @@
 module CabbageDoc
   module WebHelper
     def asset_path(path)
-      root = config.root_asset_path || request.path
-      [root, path].join('/').gsub(/\/\/+/, '/')
+      [config.asset_path || request.path, path].join('/').gsub(/\/\/+/, '/')
     end
 
     def theme_path

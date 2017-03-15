@@ -1,6 +1,6 @@
 module CabbageDoc
-  module Processors 
-    class Documentation < Processor
+  module Generators
+    class Documentation < Generator
       priority :high
 
       def perform

@@ -3,7 +3,7 @@ require 'rake/tasklib'
 
 module CabbageDoc
   class Task < Rake::TaskLib
-    attr_accessor :processors, :name
+    attr_accessor :generators, :name
 
     def self.define
       new.tap do |instance|
@@ -15,22 +15,20 @@ module CabbageDoc
     end
 
     def initialize
-      @processors = [:documentation]
+      @generators = [:documentation]
       @name = :cabbagedoc
     end
 
     def sort!
-      processors.sort! { |processor| Processor::PRIORITIES.index(Processor.all[processor].priority) }
+      generators.sort! { |generator| Generator::PRIORITIES.index(Generator.all[generator].priority) }
     end
 
     def define!
       namespace name do
-        processors.each do |processor|
-          desc "Process #{processor}"
-          namespace :process do
-            task processor.to_s => :environment do
-              Processor.all[processor].new.perform
-            end
+        generators.each do |generator|
+          desc "Generate #{generator}"
+          task generator.to_s => :environment do
+            Generator.all[generator].new.perform
           end
         end
 
@@ -40,20 +38,20 @@ module CabbageDoc
         end
       end
 
-      desc "Run all processors"
+      desc "Run all generators"
       task name => :environment do
-        processors.each do |name|
-          Processor.all[name].new.perform
+        generators.each do |name|
+          Generator.all[name].new.perform
         end
       end
     end
 
     def validate!
       fail "Invalid 'name'" unless name.is_a?(Symbol)
-      fail "No 'processors' configured" unless processors.any?
+      fail "No 'generators' configured" unless generators.any?
 
-      processors.each do |processor|
-        fail "Invalid 'processor' #{processor}" unless Processor.all.has_key?(processor)
+      generators.each do |generator|
+        fail "Invalid 'generator' #{generator}" unless Generator.all.has_key?(generator)
       end
     end
   end

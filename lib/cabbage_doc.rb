@@ -20,7 +20,7 @@ module CabbageDoc
   autoload :Collection,     'cabbage_doc/collection'
   autoload :WebHelper,      'cabbage_doc/web_helper'
   autoload :Web,            'cabbage_doc/web'
-  autoload :Processor,      'cabbage_doc/processor'
+  autoload :Generator,      'cabbage_doc/generator'
   autoload :Customizer,     'cabbage_doc/customizer'
   autoload :Task,           'cabbage_doc/task'
   autoload :Worker,         'cabbage_doc/worker'
