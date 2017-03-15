@@ -1,17 +1,25 @@
 module CabbageDoc
   module Generators
     class Pages < Generator
-      priority :medium
+      priority :low
 
       def perform
-        Dir.glob(File.join(config.root, config.page_root, "*.#{config.page_ext}")).each do |file|
-          open(file.sub(/#{config.page_ext}$/, 'html'), 'w') do |f|
-            f.write(helper.markdown.render(File.read(file)))
-          end
+        pages.each do |file|
+          generate(file)
         end
       end
 
       private
+
+      def generate(file)
+        open(file.sub(/#{config.page_ext}$/, 'html'), 'w') do |f|
+          f.write(helper.markdown.render(File.read(file)))
+        end
+      end
+
+      def pages
+        @_pages ||= Dir.glob(File.join(config.root, config.page_root, "*.#{config.page_ext}"))
+      end
 
       class Helper
         include CabbageDoc::WebHelper
