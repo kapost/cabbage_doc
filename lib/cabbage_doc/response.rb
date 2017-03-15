@@ -5,7 +5,7 @@ module CabbageDoc
     attr_reader :url, :headers, :params, :code, :body
 
     class << self
-      def parse(s)
+      def parse(s, tag = TAG)
         YAML.load(s)
       end
     end

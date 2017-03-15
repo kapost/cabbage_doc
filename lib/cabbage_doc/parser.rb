@@ -7,13 +7,13 @@ module CabbageDoc
     end
 
     module ClassMethods
-      def parse(text)
+      def parse(text, tag = TAG)
         instance = new
-        instance if instance.parse(text)
+        instance if instance.parse(text, tag)
       end
     end
 
-    def parse(text)
+    def parse(text, tag = TAG)
       raise NotImplementedError
     end
 

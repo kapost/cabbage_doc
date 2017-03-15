@@ -9,7 +9,7 @@ module CabbageDoc
     attr_reader :raw_request, :collection
 
     class << self
-      def parse(s)
+      def parse(s, tag = TAG)
         variables = YAML.load(s)
 
         new(OpenStruct.new(params: {}, env: {}), Collection.instance).tap do |instance|

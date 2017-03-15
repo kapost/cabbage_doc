@@ -3,15 +3,16 @@ module CabbageDoc
     include Parser
     include Cloneable
 
-    attr_reader :label, :klass, :name, :path, :actions, :visibility
+    attr_reader :label, :klass, :name, :path, :actions, :visibility, :tag
 
-    def initialize
+    def initialize(tag = TAG)
       @actions = []
       @visibility = VISIBILITY.first
+      @tag = tag
     end
 
-    def parse(text)
-      @label, @path, @klass, @visibility = parse_label_path_class_and_visibility(text)
+    def parse(text, tag = TAG)
+      @label, @path, @klass, @visibility, @tag = parse_label_path_class_visibility_and_tag(text, tag)
       return false unless @label && @klass
 
       @name = compose_name(klass)
@@ -31,7 +32,7 @@ module CabbageDoc
       end
     end
 
-    def eval(text)
+    def eval(text, tag)
       return [self] unless template?
 
       templates = []
@@ -50,7 +51,7 @@ module CabbageDoc
           template_text.gsub!(template[:text], template[:values].shift.to_s)
         end
 
-        self.class.parse(template_text)
+        self.class.parse(template_text, tag)
       end.compact
     end
 
@@ -69,10 +70,14 @@ module CabbageDoc
     end
 
     def compose_visbility(metadata)
-      metadata[:visibility] || :public
+      metadata[:visibility] || VISIBILITY.first
     end
 
-    def parse_label_path_class_and_visibility(text)
+    def compose_tag(metadata, tag = TAG)
+      metadata[:tag] || tag
+    end
+
+    def parse_label_path_class_visibility_and_tag(text, tag = TAG)
       klass = parse_class(text)
       return unless klass
 
@@ -82,7 +87,8 @@ module CabbageDoc
         compose_label(metadata, klass),
         compose_path(metadata, klass),
         klass,
-        compose_visbility(metadata)
+        compose_visbility(metadata),
+        compose_tag(metadata, tag)
       ]
     end
 

@@ -13,7 +13,7 @@ module CabbageDoc
       @visibility = VISIBILITY.first
     end
 
-    def parse(text)
+    def parse(text, tag = TAG)
       @method, @path = parse_method_and_path(text)
       return unless valid?
 

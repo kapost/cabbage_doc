@@ -10,7 +10,7 @@ module CabbageDoc
       @values = []
     end
 
-    def parse(text)
+    def parse(text, tag = TAG)
       m = text.match(/^(.*?\s+\(.*?\).*?)\s+-\s+(.*?)$/)
       return false unless m
 

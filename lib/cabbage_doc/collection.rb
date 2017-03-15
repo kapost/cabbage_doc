@@ -32,14 +32,14 @@ module CabbageDoc
       end
     end
 
-    def parse!(filename)
+    def parse!(filename, tag = TAG)
       text = File.read(filename) rescue nil
       return false unless text
 
-      controller = Controller.parse(text)
+      controller = Controller.parse(text, tag)
       return false unless controller
 
-      controllers = controller.eval(text)
+      controllers = controller.eval(text, tag)
 
       @_controllers.concat(controllers)
 
