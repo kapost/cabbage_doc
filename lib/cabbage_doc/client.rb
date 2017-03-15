@@ -1,3 +1,5 @@
+require 'httparty'
+
 module CabbageDoc
   class Client
     include HTTParty
