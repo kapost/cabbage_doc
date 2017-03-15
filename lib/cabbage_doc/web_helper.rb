@@ -1,3 +1,5 @@
+require 'redcarpet'
+
 module CabbageDoc
   module WebHelper
     def asset_path(path)
@@ -13,8 +15,8 @@ module CabbageDoc
     end
 
     def collection
-      if config.dev
-        Processor.perform(:documentation)
+      if config.dev && config.auto_generate
+        Generator.perform(:all)
         @_collection = nil
       end
 

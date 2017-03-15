@@ -6,4 +6,8 @@
   %title= title
   %body
     .page
-      = yield
+      .title
+        %h1=title
+        %a{href: '/'}="&lt; Back"
+      .body
+        = yield

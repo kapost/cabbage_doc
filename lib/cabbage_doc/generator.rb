@@ -24,7 +24,13 @@ module CabbageDoc
         @_all ||= {}
       end
 
+      def exists?(type)
+        all.has_key?(type)
+      end
+
       def perform(type)
+        return all.map { |_, klass| klass.new.perform } if type == :all
+
         klass = all[type]
 
         if klass
@@ -63,6 +69,10 @@ module CabbageDoc
       @_collection ||= Collection.instance.tap do |collection|
         collection.load!
       end
+    end
+
+    def controllers
+      @_controllers ||= config.controllers.call
     end
 
     def config

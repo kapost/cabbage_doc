@@ -52,7 +52,7 @@ input[type=button], input[type=submit]
   float: right;
 }
 
-.welcome, .documentation, .authentication
+.welcome, .api, .authentication
 {
 	width: 100%;
 }

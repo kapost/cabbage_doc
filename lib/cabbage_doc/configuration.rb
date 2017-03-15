@@ -44,10 +44,14 @@ module CabbageDoc
       examples: false,
       format_example: method(:format_example),
       page_root: 'pages',
-      page_ext: 'md'
+      page_ext: 'md',
+      auto_generate: true,
+      generators: [:api]
     }.freeze
 
-    OPTIONAL_ATTRIBUTES = %i(welcome path scheme title verbose authentication dev request cache theme visibility examples format_example page_root page_ext asset_path).freeze
+    OPTIONAL_ATTRIBUTES = %i(welcome path scheme title verbose authentication dev request cache
+                              theme visibility examples format_example page_root page_ext
+                              asset_path auto_generate generators).freeze
     REQUIRED_ATTRIBUTES = %i(domain controllers root).freeze
     ATTRIBUTES          = (OPTIONAL_ATTRIBUTES + REQUIRED_ATTRIBUTES).freeze
     CALLABLE_ATTRIBUTES = %i(controllers authentication request format_example).freeze

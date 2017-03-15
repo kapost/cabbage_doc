@@ -1,12 +1,12 @@
 module CabbageDoc
   module Generators
-    class Documentation < Generator
+    class Api < Generator
       priority :high
 
       def perform
         collection.clear!
 
-        config.controllers.call.each do |filename|
+        controllers.each do |filename|
           collection.parse!(filename)
         end
 

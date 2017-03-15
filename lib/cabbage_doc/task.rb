@@ -15,7 +15,7 @@ module CabbageDoc
     end
 
     def initialize
-      @generators = [:documentation]
+      @generators = Configuration.instance.generators
       @name = :cabbagedoc
     end
 
@@ -25,10 +25,10 @@ module CabbageDoc
 
     def define!
       namespace name do
-        generators.each do |generator|
-          desc "Generate #{generator}"
-          task generator.to_s => :environment do
-            Generator.all[generator].new.perform
+        generators.each do |type|
+          desc "Generate #{type}"
+          task type => :environment do
+            Generator.perform(type)
           end
         end
 
@@ -40,8 +40,8 @@ module CabbageDoc
 
       desc "Run all generators"
       task name => :environment do
-        generators.each do |name|
-          Generator.all[name].new.perform
+        generators.each do |type|
+          Generator.perform(type)
         end
       end
     end
@@ -51,7 +51,7 @@ module CabbageDoc
       fail "No 'generators' configured" unless generators.any?
 
       generators.each do |generator|
-        fail "Invalid 'generator' #{generator}" unless Generator.all.has_key?(generator)
+        fail "Invalid 'generator' #{generator}" unless Generator.exists?(generator)
       end
     end
   end
