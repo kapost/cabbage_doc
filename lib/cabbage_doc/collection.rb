@@ -46,8 +46,12 @@ module CabbageDoc
       controllers.any?
     end
 
-    def clear!
-      @_controllers = []
+    def clear!(tag = nil)
+      if tag && tags?
+        @_controllers.reject! { |controller| tag == controller.tag }
+      else
+        @_controllers = []
+      end
     end
 
     def load!
@@ -55,13 +59,30 @@ module CabbageDoc
     end
 
     def save!
+      sort!
       open(filename, 'w') { |f| f.write(YAML.dump(@_controllers)) } rescue nil
     end
 
     private
 
+    def tags?
+      @_tags ||= config.tags.size > 1
+    end
+
+    def sort!
+      return unless tags?
+
+      @_controllers.sort! do |controller|
+        -config.tags.index(controller.tag)
+      end
+    end
+
+    def config
+      @_config ||= Configuration.instance
+    end
+
     def filename
-      @_filename ||= Path.join(Configuration.instance.root, FILENAME)
+      @_filename ||= Path.join(config.root, FILENAME)
     end
   end
 end

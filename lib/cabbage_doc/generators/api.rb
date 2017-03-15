@@ -2,9 +2,10 @@ module CabbageDoc
   module Generators
     class Api < Generator
       priority :high
+      tags true
 
       def perform
-        collection.clear!
+        collection.clear!(tag)
 
         if controllers.is_a?(Hash)
           parse_with_tag!
@@ -19,6 +20,7 @@ module CabbageDoc
 
       def parse_with_tag!
         controllers.each do |tag, filenames|
+          next if self.tag && self.tag != tag
           next unless filenames.respond_to?(:call)
 
           filenames.call.each do |filename|

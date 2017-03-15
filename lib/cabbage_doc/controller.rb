@@ -74,7 +74,7 @@ module CabbageDoc
     end
 
     def compose_tag(metadata, tag = TAG)
-      metadata[:tag] || tag
+      metadata[:tag]&.to_sym || tag
     end
 
     def parse_label_path_class_visibility_and_tag(text, tag = TAG)

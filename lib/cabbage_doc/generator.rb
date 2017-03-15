@@ -11,6 +11,14 @@ module CabbageDoc
         all[klass.to_s.split('::').last.downcase.to_sym] = klass
       end
 
+      def tags(value = nil)
+        if value.nil?
+          @_tags
+        else
+          @_tags = !!value
+        end
+      end
+
       def priority(value = nil)
         if value.is_a?(Symbol)
           raise InvalidPriority, value unless PRIORITIES.include?(value)
@@ -24,20 +32,28 @@ module CabbageDoc
         @_all ||= {}
       end
 
+      def supports?(type, what)
+        !!find(type).public_send(what)
+      end
+
       def exists?(type)
         all.has_key?(type)
       end
 
-      def perform(type)
-        return all.map { |_, klass| klass.new.perform } if type == :all
+      def perform(type, tag = nil)
+        if type == :all
+          all.map { |_, klass| klass.new(tag).perform }
+        else
+          find(type).new(tag).perform
+        end
+      end
 
+      def find(type)
         klass = all[type]
 
-        if klass
-          klass.new.perform
-        else
-          raise InvalidType, type
-        end
+        raise InvalidType, type unless klass
+
+        klass
       end
 
       def load!
@@ -45,6 +61,12 @@ module CabbageDoc
           require(generator)
         end
       end
+    end
+
+    attr_accessor :tag
+
+    def initialize(tag = nil)
+      self.tag = tag
     end
 
     def perform

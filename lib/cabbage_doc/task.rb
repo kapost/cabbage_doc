@@ -3,7 +3,7 @@ require 'rake/tasklib'
 
 module CabbageDoc
   class Task < Rake::TaskLib
-    attr_accessor :generators, :name
+    attr_accessor :generators, :tags, :name, :customize
 
     def self.define
       new.tap do |instance|
@@ -15,8 +15,14 @@ module CabbageDoc
     end
 
     def initialize
-      @generators = Configuration.instance.generators
-      @name = :cabbagedoc
+      self.generators = config.generators.dup
+      self.tags = config.tags.dup
+      self.name = :cabbagedoc
+      self.customize = true
+    end
+
+    def config
+      @_config ||= Configuration.instance
     end
 
     def sort!
@@ -30,11 +36,24 @@ module CabbageDoc
           task type => :environment do
             Generator.perform(type)
           end
+
+          next unless Generator.supports?(type, :tags)
+
+          namespace type do
+            tags.each do |tag|
+              desc "Generate #{type} for #{tag}"
+              task tag => :environment do
+                Generator.perform(type, tag)
+              end
+            end
+          end
         end
 
-        desc "Customize Web UI"
-        task :customize => :environment do
-          Customizer.new.perform
+        if customize
+          desc "Customize Web UI"
+          task :customize => :environment do
+            Customizer.new.perform
+          end
         end
       end
 
