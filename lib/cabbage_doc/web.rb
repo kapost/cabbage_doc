@@ -36,24 +36,6 @@ module CabbageDoc
       haml :index
     end
 
-    get '/:slug' do
-      slug = params[:slug].to_s.gsub(/[^a-z\-_]/, '')
-      if slug.empty?
-        status 404
-        return
-      end
-
-      filename = File.join(config.root, config.page_root, "#{slug}.html")
-      content = if File.exists?(filename)
-                  File.read(filename)
-                else
-                  status 404
-                  "Page not found."
-                end
-
-      haml :page, layout: :page_layout, locals: { content: content }
-    end
-
     get '/api/:id' do
       response_by_id(params[:id])
     end
@@ -69,6 +51,20 @@ module CabbageDoc
       else
         halt 500
       end
+    end
+
+    get '/:slug' do
+      slug = params[:slug].to_s.gsub(/[^a-z\-_]/, '')
+      filename = File.join(config.root, config.page_root, "#{slug}.html") unless slug.empty?
+
+      content = if !filename.empty? && File.exists?(filename)
+                  File.read(filename)
+                else
+                  status 404
+                  "Page not found."
+                end
+
+      haml :page, layout: :page_layout, locals: { content: content }
     end
   end
 end
