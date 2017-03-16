@@ -47,7 +47,7 @@ module CabbageDoc
     end
 
     def clear!(tag = nil)
-      if tag && tags?
+      if tag && config.tags.size > 1
         @_controllers.reject! { |controller| tag == controller.tag }
       else
         @_controllers = []
@@ -65,12 +65,8 @@ module CabbageDoc
 
     private
 
-    def tags?
-      @_tags ||= config.tags.size > 1
-    end
-
     def sort!
-      return unless tags?
+      return unless config.tags.size > 1
 
       @_controllers.sort! do |controller|
         -config.tags.index(controller.tag)

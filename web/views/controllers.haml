@@ -1,0 +1,3 @@
+- controllers.each do |controller|
+  - if visible?(controller)
+    = haml :controller, locals: { controller: controller }

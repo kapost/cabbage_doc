@@ -1,4 +1,14 @@
 .controllers
-  - collection.each do |controller|
-    - if visible?(controller)
-      = haml :controller, locals: { controller: controller }
+  - if config.tags.size > 1
+    - grouped = collection.group_by(&:tag)
+    - config.tags.each { |tag| grouped.delete(tag) unless tag_visible?(tag) }
+    - if grouped.size > 1
+      - collection.group_by(&:tag).each do |tag, controllers|
+        .tag
+          .resource
+            = format_tag(tag)
+          = haml :controllers, locals: { controllers: controllers }
+    - else
+      = haml :controllers, locals: { controllers: grouped.values.first }
+  - else
+    = haml :controllers, locals: { controllers: collection }

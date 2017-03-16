@@ -1,8 +1,9 @@
 module CabbageDoc
   class Authentication
     class << self
-      def new(request = nil)
+      def new(request = nil, tag = nil)
         super().tap do |auth|
+          auth.tag = tag if tag
           yield(auth) if block_given?
           Configuration.instance.authentication.call(auth, request)
         end
@@ -21,7 +22,9 @@ module CabbageDoc
                   :user_agent,
                   :configurable,
                   :verbose,
-                  :visibility
+                  :visibility,
+                  :tag,
+                  :json
 
     def initialize
       Configuration.instance.tap do |config|
@@ -31,6 +34,8 @@ module CabbageDoc
         @user_agent = config.title
         @verbose    = config.verbose
         @visibility = config.visibility.dup
+        @tag        = config.tags.first
+        @json       = config.json
       end
 
       @subdomains = []
@@ -53,9 +58,9 @@ module CabbageDoc
     def valid?
       case type
       when :basic
-        username && password
+        username && password && valid_subdomain?
       else
-        !token.nil?
+        !token.nil? && valid_subdomain?
       end
     end
 
@@ -64,6 +69,10 @@ module CabbageDoc
     end
 
     private
+
+    def valid_subdomain?
+      !configurable.include?(:subdomain) || subdomain
+    end
 
     def root_uri
       if subdomain

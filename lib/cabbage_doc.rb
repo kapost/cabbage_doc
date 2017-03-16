@@ -34,5 +34,9 @@ module CabbageDoc
         config.validate!
       end
     end
+
+    def glob(*args)
+      proc { Dir.glob(File.join(*args)).sort.reverse }
+    end
   end
 end

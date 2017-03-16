@@ -75,18 +75,6 @@ module CabbageDoc
 
     protected
 
-    def cache
-      @_cache ||= Cache.new
-    end
-
-    def client
-      @_client ||= Client.new(auth)
-    end
-
-    def auth
-      @_auth ||= Authentication.new
-    end
-
     def collection
       @_collection ||= Collection.instance.tap do |collection|
         collection.load!

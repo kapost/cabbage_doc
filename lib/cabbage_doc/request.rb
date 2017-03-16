@@ -13,7 +13,7 @@ module CabbageDoc
         variables = YAML.load(s)
 
         new(OpenStruct.new(params: {}, env: {}), Collection.instance).tap do |instance|
-          [:@_id, :@_auth, :@_action, :@_method, :@_params].each_with_index do |k, i|
+          [:@_id, :@_auth, :@_action, :@_method, :@_tag, :@_params].each_with_index do |k, i|
             instance.instance_variable_set(k, variables[i])
           end
         end
@@ -30,7 +30,7 @@ module CabbageDoc
     end
 
     def valid?
-      action && method && METHODS.include?(method)
+      action && method && METHODS.include?(method) && auth.valid?
     end
 
     def to_yaml
@@ -39,6 +39,7 @@ module CabbageDoc
         auth,
         action,
         method,
+        tag,
         params
       ])
     end
@@ -56,7 +57,11 @@ module CabbageDoc
 
     def perform_request
       key = (method == :get) ? :query : :body
-      client.send(method, action, key => params.to_hash)
+
+      data = params.to_hash
+      data = data.to_json if key == :body && auth.json
+
+      client.public_send(method, action, key => data)
     end
 
     def url
@@ -64,11 +69,15 @@ module CabbageDoc
     end
 
     def action
-      @_action ||= compose_action(raw_request.params['action'])
+      @_action ||= compose_action(raw_request.params[Params::ACTION])
     end
 
     def method
-      @_method ||= compose_method(raw_request.params['method'])
+      @_method ||= compose_method(raw_request.params[Params::METHOD])
+    end
+
+    def tag
+      @_tag ||= compose_tag(raw_request.params[Params::TAG])
     end
 
     def compose_method(method)
@@ -90,12 +99,20 @@ module CabbageDoc
       action
     end
 
+    def compose_tag(tag)
+      if tag
+        tag.downcase.to_sym
+      else
+        TAG
+      end
+    end
+
     def params
       @_params ||= Params.new(raw_params, collection)
     end
 
     def auth
-      @_auth ||= Authentication.new(raw_request)
+      @_auth ||= Authentication.new(raw_request, tag)
     end
 
     def raw_params

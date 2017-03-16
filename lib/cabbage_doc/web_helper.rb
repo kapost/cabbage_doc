@@ -46,8 +46,16 @@ module CabbageDoc
       auth.visibility.include?(o.visibility)
     end
 
+    def tag_visible?(tag)
+      config.tags.size <= 1 || auth.visibility.include?(tag)
+    end
+
     def format_visibility(o)
       o.visibility.to_s.capitalize if o.visibility != VISIBILITY.first
+    end
+
+    def format_tag(tag)
+      tag.to_s.capitalize
     end
 
     def post_request

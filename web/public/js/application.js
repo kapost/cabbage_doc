@@ -116,8 +116,9 @@ $(document).ready(function()
 
     var data = $('.authentication form').serializeArray().concat(form.serializeArray());
 
-    data.push({'name': 'method', 'value': form.attr('method') || ''});
-    data.push({'name': 'action', 'value': form.attr('action') || ''});
+    data.push({'name': '__method', 'value': form.attr('method')    || ''});
+    data.push({'name': '__action', 'value': form.attr('action')    || ''});
+    data.push({'name': '__tag',    'value': form.attr('data-tag')  || 'api'});
 
     data = $.grep(data, function(v, i)
     {

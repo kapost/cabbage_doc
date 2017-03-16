@@ -6,7 +6,7 @@
     %span= " : #{action.label}"
     %span.visibility= format_visibility(action)
   .clear
-  %form.hidden{ action: action.path, method: action.method }
+  %form.hidden{ action: action.path, method: action.method, :'data-tag' => tag }
     - if action.description
       .description= markdown.render(action.description)
     - if %i(unreleased beta).include?(action.visibility)

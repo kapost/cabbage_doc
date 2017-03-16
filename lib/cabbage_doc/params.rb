@@ -2,6 +2,10 @@ module CabbageDoc
   class Params
     include Enumerable
 
+    ACTION  = '__action'.freeze
+    METHOD  = '__method'.freeze
+    TAG     = '__tag'.freeze
+
     def initialize(params, collection)
       @_params = convert(params, collection)
     end
@@ -41,8 +45,8 @@ module CabbageDoc
     private
 
     def convert(params, collection)
-      method = params['method']
-      action = params['action']
+      method = params[METHOD]
+      action = params[ACTION]
 
       return {} unless action && method
 

@@ -7,4 +7,4 @@
   .actions.hidden
     - controller.actions.each do |action|
       - if visible?(action)
-        = haml :action, locals: { action: action }
+        = haml :action, locals: { action: action, tag: controller.tag }

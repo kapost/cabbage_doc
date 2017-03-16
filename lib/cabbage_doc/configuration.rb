@@ -47,12 +47,13 @@ module CabbageDoc
       page_ext: 'md',
       auto_generate: true,
       generators: [:api],
-      tags: []
+      tags: [TAG],
+      json: false
     }.freeze
 
     OPTIONAL_ATTRIBUTES = %i(welcome path scheme title verbose authentication dev request cache
                               theme visibility examples format_example page_root page_ext
-                              asset_path auto_generate generators tags).freeze
+                              asset_path auto_generate generators tags json).freeze
     REQUIRED_ATTRIBUTES = %i(domain controllers root).freeze
     ATTRIBUTES          = (OPTIONAL_ATTRIBUTES + REQUIRED_ATTRIBUTES).freeze
     CALLABLE_ATTRIBUTES = %i(controllers authentication request format_example).freeze
@@ -95,7 +96,8 @@ module CabbageDoc
     def validate_visibility!
       self.visibility = Array(visibility)
       self.visibility.each do |v|
-        raise ArgumentError, "#{v} invalid visibility" unless VISIBILITY.include?(v)
+        valid = VISIBILITY.include?(v) || tags.include?(v)
+        raise ArgumentError, "#{v} invalid visibility" unless valid
       end
     end
   end
