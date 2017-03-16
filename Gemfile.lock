@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    cabbage_doc (0.0.7)
+    cabbage_doc (0.0.8)
+      haml
       httparty
       json
       rake (>= 10.0)
@@ -12,15 +13,17 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.2.5)
+    haml (4.0.6)
+      tilt
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
-    json (2.0.2)
-    multi_xml (0.5.5)
-    rack (1.6.4)
+    json (2.0.3)
+    multi_xml (0.6.0)
+    rack (1.6.5)
     rack-protection (1.5.3)
       rack
-    rake (11.3.0)
-    redcarpet (3.3.4)
+    rake (12.0.0)
+    redcarpet (3.4.0)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -35,11 +38,11 @@ GEM
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
     rubygems-tasks (0.2.4)
-    sinatra (1.4.7)
+    sinatra (1.4.8)
       rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
-    tilt (2.0.5)
+    tilt (2.0.6)
 
 PLATFORMS
   ruby
@@ -51,4 +54,4 @@ DEPENDENCIES
   rubygems-tasks
 
 BUNDLED WITH
-   1.13.1
+   1.13.7
