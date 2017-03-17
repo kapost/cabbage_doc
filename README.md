@@ -215,6 +215,7 @@ visibility options.
 - Private
 - Internal
 - Beta
+- Unreleased
 
 By default only controllers and actions `marked` as `Public` will show up in the generated
 documentation.
@@ -223,11 +224,11 @@ You can turn on additional visibility options in the initializer like so:
 
 ```ruby
 config.authentication = proc do |auth, request|
-  auth.visibility += [:private, :internal, :beta]
+  auth.visibility += [:private, :internal, :beta, :unreleased]
 end
 ```
 
-The `Beta` visibility will display a "warning" on each `marked` action.
+`Beta` and `Unreleased` visibility will display a "warning" on each `marked` action.
 
 ![Screenshot](cabbage_doc_warning.png)
 
