@@ -1,3 +1,4 @@
+require 'erb'
 require 'redcarpet'
 
 module CabbageDoc
@@ -32,6 +33,10 @@ module CabbageDoc
         fenced_code_blocks: true,
         autolink: true
       )
+    end
+
+    def eval_with_erb(text)
+      ERB.new(text).result(binding)
     end
 
     def title

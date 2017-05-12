@@ -13,7 +13,7 @@ module CabbageDoc
 
       def generate(file)
         open(file.sub(/#{config.page_ext}$/, 'html'), 'w') do |f|
-          f.write(helper.markdown.render(File.read(file)))
+          f.write(helper.markdown.render(helper.eval_with_erb(File.read(file))))
         end
       end
 

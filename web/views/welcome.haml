@@ -1,1 +1,1 @@
-= markdown.render(config.welcome) if config.welcome
+= markdown.render(eval_with_erb(config.welcome)) if config.welcome
