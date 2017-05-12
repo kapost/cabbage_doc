@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    cabbage_doc (0.0.8)
-      haml
+    cabbage_doc (0.1.0)
+      haml (= 4.0.6)
       httparty
       json
       rake (>= 10.0)
@@ -15,7 +15,7 @@ GEM
     diff-lcs (1.2.5)
     haml (4.0.6)
       tilt
-    httparty (0.14.0)
+    httparty (0.15.0)
       multi_xml (>= 0.5.2)
     json (2.0.3)
     multi_xml (0.6.0)
@@ -54,4 +54,4 @@ DEPENDENCIES
   rubygems-tasks
 
 BUNDLED WITH
-   1.13.7
+   1.14.6

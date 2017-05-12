@@ -55,10 +55,10 @@ module CabbageDoc
 
     get '/:slug' do
       slug = params[:slug].to_s.gsub(/[^a-z\-_]/, '')
-      filename = File.join(config.root, config.page_root, "#{slug}.html") unless slug.empty?
+      filename = File.join(config.root, config.page_root, "#{slug}.md") unless slug.empty?
 
       content = if !filename.empty? && File.exists?(filename)
-                  File.read(filename)
+                  markdown.render(eval_with_erb(File.read(filename)))
                 else
                   status 404
                   "Page not found."
