@@ -4,6 +4,13 @@ module CabbageDoc
   class Client
     include HTTParty
 
+    class CustomParser < HTTParty::Parser
+      def json
+        JSON.parse(body, :quirks_mode => true, :allow_nan => true)
+      end
+    end
+    parser CustomParser
+
     class << self
       def new(auth)
         Class.new(self) do |klass|
