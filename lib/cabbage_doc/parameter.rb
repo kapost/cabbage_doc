@@ -2,7 +2,7 @@ module CabbageDoc
   class Parameter
     include Parser
 
-    TYPES = %i(numeric decimal integer string id enumeration array date time timestamp hash)
+    TYPES = %i(numeric decimal integer string id enumeration array date time timestamp hash number)
 
     attr_reader :label, :name, :type, :type_label, :default, :values, :required
 

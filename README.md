@@ -180,6 +180,7 @@ The `description` is processed via Markdown.
 
 Here is a list of all `parameter` types:
 
+- Number
 - Numeric
 - Decimal
 - Integer
