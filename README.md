@@ -174,6 +174,23 @@ def destroy # :cabbagedoc:
 end
 ```
 
+Multline descriptions are also possible:
+
+```ruby
+# Public: Delete
+#
+# DELETE: /resources/:id
+#
+# Description:
+#   Deletes a resource.
+#   And it also does something magical.
+#
+# Parameters:
+#   id (String) [required] - resource id
+def destroy # :cabbagedoc:
+end
+```
+
 The `description` is processed via Markdown.
 
 #### Parameters

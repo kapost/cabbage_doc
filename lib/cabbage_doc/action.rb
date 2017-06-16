@@ -4,6 +4,7 @@ module CabbageDoc
 
     METHODS = %w(GET POST PUT DELETE).freeze
     METHODS_REGEXP = METHODS.join('|').freeze
+    SECTION_REGEXP = "Parameters|Examples|#{METHODS_REGEXP}|#{VISIBILITY_REGEXP}".freeze
 
     attr_reader :label, :name, :description, :path, :method, :parameters, :examples, :visibility
 
@@ -37,22 +38,12 @@ module CabbageDoc
 
     private
 
-    # FIXME: get rid of this and optimize direct regex matches
-    def text_to_lines(text)
-      text.gsub(/\r\n?/, "\n").split(/\n/)[0..-2].map do |line|
-        line.strip!
-        line.slice!(0)
-        line.strip!
-        line if line.size > 0
-      end.compact
-    end
-
     def parse_parameters_and_examples(text)
       # FIXME: rewrite this to do a 'scan' with the right Regexp
       parameters = []
       examples = []
 
-      lines = text_to_lines(text)
+      lines = text_to_lines(text).map(&:strip).select { |line| line.size > 0 }
 
       lines.each do |line|
         if parameter = Parameter.parse(line)
@@ -81,8 +72,8 @@ module CabbageDoc
     end
 
     def parse_description(text)
-      m = text.match(/#\s*Description:(.*?)$/)
-      m[1].strip if m
+      m = text.match(/#\s*Description:\s+(.*?)(#\s*(#{SECTION_REGEXP}):|\z)/m)
+      text_to_lines(m[1]).join("\n").strip if m
     end
 
     def parse_visibility(text)
@@ -92,6 +83,13 @@ module CabbageDoc
       else
         VISIBILITY.first
       end
+    end
+
+    def text_to_lines(text)
+      text.strip.gsub(/\r\n?/, "\n").split("\n").map do |line|
+        line.sub!(/^(\s+)?#\s*/, "")
+        line if line !~ /#\s+?#{MARKER}$/
+      end.compact
     end
   end
 end
