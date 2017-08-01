@@ -11,6 +11,8 @@ module CabbageDoc
     ROOT = File.expand_path("../../../web", __FILE__).freeze
 
     set :root, proc {
+      Configuration.instance.validate!
+
       dir = File.join(Configuration.instance.root, 'web')
       if Dir.exists?(dir)
         dir
