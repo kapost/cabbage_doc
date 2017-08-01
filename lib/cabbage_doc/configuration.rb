@@ -40,6 +40,7 @@ module CabbageDoc
       visibility: [VISIBILITY.first],
       cache: Cache.new,
       request: proc { |request| request.perform },
+      authentication: proc { |auth, request| },
       theme: 'github',
       examples: false,
       format_example: method(:format_example),
