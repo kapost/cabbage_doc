@@ -1,12 +1,5 @@
 $(document).ready(function()
 {
-  function highlight(selector)
-  {
-    selector.each(function(i, e) { hljs.highlightBlock(e); });
-  }
-
-  highlight($('code'));
-
   function compose_path(path)
   {
     return [window.location.pathname, path].join('/').replace(/\/\/+/, '/');
@@ -41,8 +34,6 @@ $(document).ready(function()
     response.find('.body').html(json.body);
 
     form.find('.clear').removeClass('hidden');
-
-    highlight(response.find('pre code'));
 
     enable_submit_buttons();
   }

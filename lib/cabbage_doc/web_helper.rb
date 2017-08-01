@@ -1,5 +1,4 @@
 require 'erb'
-require 'redcarpet'
 
 module CabbageDoc
   module WebHelper
@@ -27,12 +26,7 @@ module CabbageDoc
     end
 
     def markdown
-      @_markdown ||= Redcarpet::Markdown.new(
-        Redcarpet::Render::HTML.new,
-        tables: true,
-        fenced_code_blocks: true,
-        autolink: true
-      )
+      @_markdown ||= Markdown.new
     end
 
     def eval_with_erb(text)
@@ -63,6 +57,11 @@ module CabbageDoc
       tag.to_s.capitalize
     end
 
+    def format_json_response(response)
+      content_type :json
+      response.to_json
+    end
+
     def post_request
       @_post_request ||= Request.new(request, collection)
     end
@@ -71,8 +70,7 @@ module CabbageDoc
       response = Worker.get(id)
 
       if response.is_a?(Response)
-        content_type :json
-        response.to_json
+        format_json_response(response)
       else
         status 503
         content_type :json

@@ -15,12 +15,13 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 2.1"
  
-  s.add_dependency 'redcarpet'
+  s.add_dependency 'redcarpet', '~> 3.4.0'
   s.add_dependency 'haml', '~> 4.0.6'
-  s.add_dependency 'sinatra'
+  s.add_dependency 'sinatra', '~> 1.4.8'
   s.add_dependency 'httparty', '~> 0.15.0'
-  s.add_dependency 'json'
+  s.add_dependency 'json', '~> 1.8.0'
   s.add_dependency 'rake', '>= 10.0'
+  s.add_dependency 'rouge', '~> 2.1.1'
 
   s.add_development_dependency 'bundler', '~> 1.11'
   s.add_development_dependency 'rspec', '~> 3.4'

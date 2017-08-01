@@ -21,3 +21,10 @@ a:hover
 	margin: 10px auto;
 	width: 1024px;
 }
+
+p code
+{
+  font-weight: bold;
+  font-style: italic;
+  font-family: inherit;
+}

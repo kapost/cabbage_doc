@@ -1,4 +1,5 @@
 require 'yaml'
+require 'rouge'
 
 module CabbageDoc
   class Response
@@ -24,20 +25,35 @@ module CabbageDoc
 
     def to_json
       { 
-        url: url,
-        query: params.to_query, 
-        code: code, 
-        headers: prettify(headers),
-        body: prettify(body) 
+        url: highlight(url.join),
+        query: highlight(params.to_query),
+        code: highlight(code.to_s),
+        headers: highlight(prettify(headers), :json),
+        body: highlight(prettify(body), :json)
       }.to_json
     end
 
     private
 
-    def prettify(data)
-      JSON.pretty_generate(data)
+    def highlight(text, type = :console)
+      formatter.format(lexers.fetch(type).lex(text))
+    end
+
+    def formatter
+      @_formatter ||= Rouge::Formatters::HTMLLegacy.new(css_class: "highlight")
+    end
+
+    def lexers
+      @_lexers ||= {
+        json: Rouge::Lexers::JSON.new,
+        console: Rouge::Lexers::ConsoleLexer.new
+      }
+    end
+ 
+    def prettify(text)
+      JSON.pretty_generate(text)
     rescue
-      data.to_s
+      text.to_s
     end
 
     def convert_headers(response)

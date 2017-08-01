@@ -26,6 +26,7 @@ module CabbageDoc
   autoload :Task,           'cabbage_doc/task'
   autoload :Worker,         'cabbage_doc/worker'
   autoload :Cache,          'cabbage_doc/cache'
+  autoload :Markdown,       'cabbage_doc/markdown'
 
   class << self
     def configure

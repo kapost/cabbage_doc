@@ -46,8 +46,7 @@ module CabbageDoc
       response = config.request.call(post_request) if post_request.valid?
 
       if response.is_a?(Response)
-        content_type :json
-        response.to_json
+        format_json_response(response)
       elsif post_request.valid?
         response_by_id(post_request.id)
       else
