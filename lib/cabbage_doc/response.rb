@@ -1,5 +1,4 @@
 require 'yaml'
-require 'rouge'
 
 module CabbageDoc
   class Response
@@ -35,21 +34,14 @@ module CabbageDoc
 
     private
 
-    def highlight(text, type = :console)
-      formatter.format(lexers.fetch(type).lex(text))
+    def highlight(text, type = :sh)
+      highlighter.format(text, type)
     end
 
-    def formatter
-      @_formatter ||= Rouge::Formatters::HTMLLegacy.new(css_class: "highlight")
+    def highlighter
+      @_highlighter ||= Highlighter.new
     end
 
-    def lexers
-      @_lexers ||= {
-        json: Rouge::Lexers::JSON.new,
-        console: Rouge::Lexers::ConsoleLexer.new
-      }
-    end
- 
     def prettify(text)
       JSON.pretty_generate(text)
     rescue
