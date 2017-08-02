@@ -37,14 +37,14 @@ module CabbageDoc
 
       templates = []
 
-      templates += parse_templates(@path)
-      templates += parse_templates(@label)
+      templates += parse_templates(@path, tag)
+      templates += parse_templates(@label, tag)
 
       return [] unless templates.any?
 
       count = templates.first[:values].count
 
-      (1..count).map do |i|
+      count.times.map do |i|
         template_text = text.dup
 
         templates.each do |template|
@@ -149,7 +149,7 @@ module CabbageDoc
     end
 
     def template?
-      @path =~ /\/{.*?,.*?}/
+      @path =~ /\/\{.*?\}/ || @label =~ /\{.*?\}/
     end
   end
 end

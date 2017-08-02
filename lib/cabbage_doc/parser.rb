@@ -34,11 +34,15 @@ module CabbageDoc
       end
     end
 
-    def parse_templates(text)
+    def parse_templates(text, tag = TAG)
       templates = []
 
+      mappings = Configuration.instance.templates.fetch(tag.to_sym, {})
+
       text.scan(/(\{(.*?)\})/) do
-        templates << { text: $1, values: $2.split(/,/).map(&:strip) }
+        text = $1.dup
+        values = Array(mappings.fetch(text, $2.split(/,/).map(&:strip)).dup)
+        templates << { text: text, values: values }
       end
 
       templates

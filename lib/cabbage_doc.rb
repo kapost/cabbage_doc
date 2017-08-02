@@ -38,7 +38,11 @@ module CabbageDoc
     end
 
     def glob(*args)
-      proc { Dir.glob(File.join(*args)).sort.reverse }
+      proc do
+        arr = args.first
+        arr = [args] unless arr.is_a?(Array)
+        arr.map { |segs| Dir.glob(File.join(*segs)) }.flatten.sort.reverse
+      end
     end
   end
 end

@@ -26,7 +26,7 @@ module CabbageDoc
 
         cmd << "\"#{[auth.uri, path].join}\""
 
-        Highlighter.new.format(cmd.join(' '), :sh)
+        cmd.join(' ')
       end
     end
 
@@ -41,7 +41,7 @@ module CabbageDoc
       cache: Cache.new,
       request: proc { |request| request.perform },
       authentication: proc { |auth, request| },
-      templates: proc { {} },
+      templates: {},
       theme: 'github',
       examples: false,
       format_example: method(:format_example),
@@ -55,10 +55,10 @@ module CabbageDoc
 
     OPTIONAL_ATTRIBUTES = %i(welcome path scheme title verbose authentication dev request cache
                               theme visibility examples format_example page_root page_ext
-                              asset_path auto_generate generators tags json templates).freeze
+                              asset_path auto_generate generators tags json templates confirm).freeze
     REQUIRED_ATTRIBUTES = %i(domain controllers root).freeze
     ATTRIBUTES          = (OPTIONAL_ATTRIBUTES + REQUIRED_ATTRIBUTES).freeze
-    CALLABLE_ATTRIBUTES = %i(controllers authentication request format_example templates).freeze
+    CALLABLE_ATTRIBUTES = %i(controllers authentication request format_example confirm).freeze
 
     attr_accessor *ATTRIBUTES 
 

@@ -25,6 +25,10 @@ module CabbageDoc
       end
     end
 
+    def highlighter
+      @_highlighter ||= Highlighter.new
+    end
+
     def markdown
       @_markdown ||= Markdown.new
     end
