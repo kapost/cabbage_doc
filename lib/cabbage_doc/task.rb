@@ -3,7 +3,7 @@ require 'rake/tasklib'
 
 module CabbageDoc
   class Task < Rake::TaskLib
-    attr_accessor :generators, :tags, :name, :customize
+    attr_accessor :generators, :tags, :name, :customize, :confirm
 
     def self.define
       new.tap do |instance|
@@ -19,6 +19,7 @@ module CabbageDoc
       self.tags = config.tags.dup
       self.name = :cabbagedoc
       self.customize = true
+      self.confirm = config.confirm
     end
 
     def config
@@ -58,7 +59,7 @@ module CabbageDoc
       generators.each do |type|
         desc "Generate #{type}"
         task type => :environment do
-          Generator.perform(type)
+          Generator.perform(type) if confirm.call(:all)
         end
 
         define_generators_by_tag!(type)
@@ -74,7 +75,7 @@ module CabbageDoc
         tags.each do |tag|
           desc "Generate #{type} for #{tag}"
           task tag => :environment do
-            Generator.perform(type, tag)
+            Generator.perform(type, tag) if confirm.call(tag)
           end
         end
       end

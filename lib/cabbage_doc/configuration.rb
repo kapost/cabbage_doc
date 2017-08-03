@@ -41,6 +41,7 @@ module CabbageDoc
       cache: Cache.new,
       request: proc { |request| request.perform },
       authentication: proc { |auth, request| },
+      confirm: proc { |tag| true },
       templates: {},
       theme: 'github',
       examples: false,
