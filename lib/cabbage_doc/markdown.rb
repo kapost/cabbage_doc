@@ -6,10 +6,6 @@ module CabbageDoc
   module Markdown
     class HighlightedHTML < Redcarpet::Render::HTML
       include Rouge::Plugins::Redcarpet
-
-      def block_code(code, language)
-        super("\n#{code}", language)
-      end
     end
 
     class << self

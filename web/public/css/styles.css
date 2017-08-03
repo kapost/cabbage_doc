@@ -36,13 +36,6 @@ p code
   font-family: inherit;
 }
 
-pre.highlight, .authentication form
-{
-	font-family: monospace;
-	border: 1px solid #e5e0c6;
-	padding: 5px;
-}
-
 .authentication form
 {
 	background-color: #fcf6db;
@@ -229,4 +222,23 @@ input[type=button], input[type=submit]
   background-color: #FFF8E1;
   padding: 10px;
   margin-bottom: 10px;
+}
+
+div.highlight pre
+{
+	margin: 0;
+	padding: 0;
+}
+
+div.highlight
+{
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border: 1px solid #e5e0c6;
+}
+
+.example div.highlight
+{
+	padding: 5px;
 }

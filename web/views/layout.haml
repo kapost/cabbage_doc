@@ -9,4 +9,5 @@
   %title= title
   %body
     .application
-      = yield
+      = preserve do
+        = yield

@@ -11,4 +11,5 @@
         %h1=title
         %a{href: '/'}="&lt; Back"
       .body
-        = yield
+        = preserve do
+          = yield
