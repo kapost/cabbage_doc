@@ -35,20 +35,25 @@ module CabbageDoc
     def eval(text, tag)
       return [self] unless template?
 
-      templates = []
+      templates = {}
 
-      templates += parse_templates(@path, tag)
-      templates += parse_templates(@label, tag)
+      templates.merge!(parse_templates(path, tag))
+      templates.merge!(parse_templates(label, tag))
+
+      yield_actions(text) do |action|
+        templates.merge!(parse_templates(action, tag))
+      end
 
       return [] unless templates.any?
 
-      count = templates.first[:values].count
+      count = templates.values.first.count
+      return [] if templates.values.any? { |v| v.count != count }
 
       count.times.map do |i|
         template_text = text.dup
 
-        templates.each do |template|
-          template_text.gsub!(template[:text], template[:values].shift.to_s)
+        templates.each do |text, values|
+          template_text.gsub!(text, values.shift.to_s)
         end
 
         self.class.parse(template_text, tag)
@@ -95,9 +100,9 @@ module CabbageDoc
     def parse_actions(text)
       actions = []
 
-      text.scan(/(#\s*(#{VISIBILITY_REGEXP}):\s*.*?(#{Action::METHODS_REGEXP}):.*?def\s+.*?\s*#\s*#{MARKER})/m) do
-        actions << Action.parse(parse_action($1))
-      end 
+      yield_actions(text) do |action|
+        actions << Action.parse(parse_action(action))
+      end
 
       actions.compact
     end
@@ -142,6 +147,12 @@ module CabbageDoc
       else
         VISIBILITY.first
       end
+    end
+
+    def yield_actions(text)
+      text.scan(/(#\s*(#{VISIBILITY_REGEXP}):\s*.*?(#{Action::METHODS_REGEXP}):.*?def\s+.*?\s*#\s*#{MARKER})/m) do
+        yield $1
+      end 
     end
 
     def actions?
