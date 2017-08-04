@@ -69,7 +69,7 @@ module CabbageDoc
       return unless config.tags.size > 1
 
       @_controllers.sort! do |controller|
-        -config.tags.index(controller.tag)
+        -config.tags.index(controller.tag).to_i
       end
     end
 
