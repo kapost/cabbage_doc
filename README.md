@@ -195,6 +195,27 @@ The `description` is processed via Markdown.
 
 #### Parameters
 
+Parameters in the URL (path components) should be prefixed
+with a *:* and then added to the list of parameters.
+
+CabbageDoc is smart enough to detect this and make the
+necessary substitutions when interacting wit the action
+in question.
+
+```ruby
+# Public: Delete
+#
+# DELETE: /resources/:parent_id/comments/:id
+#
+# Parameters:
+#   parent_id (String) [required] - parent resource id
+#   id (String) [required] - id
+def destroy # :cabbagedoc:
+end
+```
+
+These *parameters* should be marked as required.
+
 Here is a list of all `parameter` types:
 
 - Number
@@ -259,6 +280,140 @@ It is also possible to provide examples for each action.
 ```
 
 ![Screenshot](cabbage_doc_example.png)
+
+#### Templates
+Often times it is needed to *document* a so called *subresource* which can be
+*mounted* under a number of *parent resources*.
+
+To enable this, CabbageDoc offers *templates*. Templates can be inline or global.
+
+##### Inline Templates
+Inline templates are useful when there is a subresource which is specific to a
+given application and will only live within the context of that application.
+
+```ruby
+# Public: {Post,Ideas} Resource
+#
+# PATH: /{posts,ideas}/:{post,idea}_id/resources
+class ResourcesController # :cabbagedoc:
+  # Public: List
+  #
+  # GET: /{posts,ideas}/:{post,idea}_id/resources
+  #
+  # Parameters:
+  #   {post,idea}_id - {post,idea} ID
+  #   detail (Enumeration) - level of detail (default: basic, values: full|basic)
+  #   per_page (Numeric) - resources per page (default: 25)
+  #   categories (Array) - filter by categories
+  #   search (String) - filter by search string
+  def index # :cabbagedoc:
+  end
+end
+```
+
+When CabbageDoc will process this, it will detect it uses inline templates and will
+generate two *copies* with the template values substituted.
+
+Why two? Because each *template string* has two values, separated by *,*.
+
+##### Global Templates
+Global templates are useful when there is a subresource that lives outside the
+context of a single application and will most likely be *mounted* within multiple
+applications.
+
+The prime example of this would be a *Rails Engine*.
+
+In this case, it is not desirable to litter the documentation with specific
+terminology, because the *engine* could be mounted in several applications.
+
+This is where global templates come into play, by allowing us to use generic
+templates and then provide specific *values* in the CabbageDoc configuration.
+
+```ruby
+  config.tags = %i[main_app secondary_app]
+  config.controllers = proc
+  {
+    main_app: CabbageDoc.glob([
+          ['..', 'main_app', 'app', 'controllers', 'api', 'v1', '*.rb'],
+          ['..', 'racl', 'app', 'controllers', 'api', 'v1', '*.rb']
+    ]),
+    secondary_app: CabbageDoc.glob([
+          ['..', 'secondary_app', 'app', 'controllers', 'api', 'v1', '*.rb'],
+          ['..', 'racl', 'app', 'controllers', 'api', 'v1', '*.rb']
+    ])
+  }
+```
+
+The *engine* called *racl* is sourced into both apps as shown above.
+
+```ruby
+# Public: {racl:collection} Resource
+#
+# PATH: /{racl:root}/{racl:resource}/:{racl:resource_id}/resources
+module Racl
+  class Resource # :cabbagedoc:
+    # Public: List {racl:resource}
+    #
+    # GET: /{racl:root}/{racl:resource}/:{racl:resource_id}/resources
+    #
+    # Parameters:
+    #   {racl:resource_id} - {racl:resource_name} ID
+    #   detail (Enumeration) - level of detail (default: basic, values: full|basic)
+    #   per_page (Numeric) - resources per page (default: 25)
+    #   categories (Array) - filter by categories
+    #   search (String) - filter by search string
+    def index # :cabbagedoc:
+    end
+  end
+end
+```
+
+These *templates* will be substituted with what it is defined in the global
+CabbageDoc configuration for each *application*.
+
+```ruby
+  config.templates = {
+    main_app: {
+      '{racl:collection}' => [
+        'Content',
+        'Idea'
+      ],
+      '{racl:root}' => [
+        'api/v1',
+        'api/v1'
+      ],
+      '{racl:resource}' => [
+        'content',
+        'ideas'
+      ],
+      '{racl:resource_id}' => [
+        'content_id',
+        'idea_id'
+      ],
+      '{racl:resource_name}' => [
+        'content',
+        'idea'
+      ]
+    },
+    secondary_app: {
+      '{racl:collection}' => [
+        'Dashboards'
+      ],
+      '{racl:root}' => [
+        'api/v1'
+      ],
+      '{racl:resource}' => [
+        'dashboards'
+      ],
+      '{racl:resource_id}' => [
+        'dashboard_id'
+      ],
+      '{racl:resource_name}' => [
+        'dashboard'
+      ]
+    }
+  }
+```
 
 By running `rake cabbagedoc`, CabbageDoc parses all comments and generates
 the necessary metadata which is then used to render the documentation.
