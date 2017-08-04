@@ -41,7 +41,7 @@ module CabbageDoc
       proc do
         arr = args.first
         arr = [args] unless arr.is_a?(Array)
-        arr.map { |segs| Dir.glob(File.join(*segs)) }.flatten.sort.reverse
+        arr.map { |segs| Dir.glob(File.join(*Array(segs))) }.flatten.sort.reverse
       end
     end
   end
